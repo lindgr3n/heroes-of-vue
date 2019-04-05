@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Heroes of Vue</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css"> -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+  <style>
+    /* Application-wide Styles */
+   /* AppComponent's private CSS styles */
+    h1 {
+      font-size: 1.2em;
+      color: #999;
+      margin-bottom: 0;
+    }
+    h2 {
+      font-size: 2em;
+      margin-top: 0;
+      padding-top: 0;
+    }
+    nav a {
+      padding: 5px 10px;
+      text-decoration: none;
+      margin-top: 10px;
+      display: inline-block;
+      background-color: #eee;
+      border-radius: 4px;
+    }
+    nav a:visited, a:link {
+      color: #607d8b;
+    }
+    nav a:hover {
+      color: #039be5;
+      background-color: #cfd8dc;
+    }
+    nav a.active {
+      color: #039be5;
+    }
+
+    /* HeroesComponent's private CSS styles */
+    .selected {
+      background-color: #CFD8DC !important;
+      color: white;
+    }
+    .heroes {
+      margin: 0 0 2em 0;
+      list-style-type: none;
+      padding: 0;
+      width: 15em;
+    }
+    .heroes li {
+      cursor: pointer;
+      position: relative;
+      left: 0;
+      background-color: #EEE;
+      margin: .5em;
+      padding: .3em 0;
+      height: 1.6em;
+      border-radius: 4px;
+    }
+    .heroes li.selected:hover {
+      background-color: #BBD8DC !important;
+      color: white;
+    }
+    .heroes li:hover {
+      color: #607D8B;
+      background-color: #DDD;
+      left: .1em;
+    }
+    .heroes .text {
+      position: relative;
+      top: -3px;
+    }
+    .heroes .badge {
+      display: inline-block;
+      font-size: small;
+      color: white;
+      padding: 0.8em 0.7em 0 0.7em;
+      background-color: #607D8B;
+      line-height: 1em;
+      position: relative;
+      left: -1px;
+      top: -4px;
+      height: 1.8em;
+      margin-right: .8em;
+      border-radius: 4px 0 0 4px;
+    }
+
+    /* DashboardComponent's private CSS styles */
+    [class*='col-'] {
+      float: left;
+      padding-right: 20px;
+      padding-bottom: 20px;
+    }
+    [class*='col-']:last-of-type {
+      padding-right: 0;
+    }
+    a {
+      text-decoration: none;
+    }
+    /* *, *:after, *:before {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    } */
+    h3 {
+      text-align: center;
+      margin-bottom: 0;
+    }
+    h4 {
+      position: relative;
+    }
+    .grid {
+      margin: 0;
+    }
+    .col-1-4 {
+      width: 25%;
+    }
+    .module {
+      padding: 20px;
+      text-align: center;
+      color: #eee;
+      max-height: 120px;
+      min-width: 120px;
+      background-color: #607d8b;
+      border-radius: 2px;
+    }
+    .module:hover {
+      background-color: #eee;
+      cursor: pointer;
+      color: #607d8b;
+    }
+    .grid-pad {
+      padding: 10px 0;
+    }
+    .grid-pad > [class*='col-']:last-of-type {
+      padding-right: 20px;
+    }
+    @media (max-width: 600px) {
+      .module {
+        font-size: 10px;
+        max-height: 75px; }
+    }
+    @media (max-width: 1024px) {
+      .grid {
+        margin: 0;
+      }
+      .module {
+        min-width: 60px;
+      }
+    }
+
+    /* HeroSearch private styles */
+    .search-result li {
+      border-bottom: 1px solid gray;
+      border-left: 1px solid gray;
+      border-right: 1px solid gray;
+      width: 195px;
+      height: 16px;
+      padding: 5px;
+      background-color: white;
+      cursor: pointer;
+      list-style-type: none;
+    }
+    
+    .search-result li:hover {
+      background-color: #607D8B;
+    }
+    
+    .search-result li a {
+      color: #888;
+      display: block;
+      text-decoration: none;
+    }
+    
+    .search-result li a:hover {
+      color: white;
+    }
+    .search-result li a:active {
+      color: white;
+    }
+    #search-box {
+      width: 200px;
+      height: 20px;
+    }
+    
+    
+    ul.search-result {
+      margin-top: 0;
+      padding-left: 0;
+    }
+  </style>
+  <script>
+    window.onload = function() {
+      const hero = function({id, name}) {
+        return {
+          id,
+          name
+       }
+      };
+      
+      // From https://vuejs.org/v2/guide/team.html
+      let heroes = [
+        { id: 11, name: 'Evan You' },
+        { id: 12, name: 'Kazupon' },
+        { id: 13, name: 'Guillaume Chau' },
+        { id: 14, name: 'Sodatea' },
+        { id: 15, name: 'Damian Dulisz' },
+        { id: 16, name: 'Katashin' },
+        { id: 17, name: 'Eduardo' },
+        { id: 18, name: 'Sarah Drasner' },
+        { id: 19, name: 'Jinjiang' },
+        { id: 20, name: 'Rahul Kadyan' },
+        { id: 21, name: 'Pine Wu' },
+        { id: 22, name: 'Darek G Wędrychowski' },
+        { id: 23, name: 'Michał Sajnóg' },
+        { id: 24, name: 'Chris Fritz' },
+        { id: 25, name: 'Phan An' },
+        { id: 26, name: 'ULIVZ' },
+        { id: 27, name: 'Linusborg' },
+        { id: 28, name: 'GU Yiling' },
+        { id: 29, name: 'Edd Yerburgh' },
+        { id: 30, name: 'Pine' }
+      ].map(hero);
+
+      const Heroes = Vue.component('vue-heroes', { 
+        data: function() {
+          return {
+            heroes: [],
+            selectedHero: {},
+            heroToAdd: ''
+          }
+        },
+        mounted: function() {
+          this.heroes = api.getHeroes()
+          
+        },
+        methods: {
+          onSelect: function(hero) {
+            this.selectedHero = hero;
+          },
+          addHero: function() {
+            api.addHero(this.heroToAdd)
+          },
+          deleteHero(hero) {
+            api.deleteHero(hero);
+            this.heroes = api.getHeroes()
+          }
+        },
+        template: `
+                  <div>
+                    <div>
+                      <label>Hero name:
+                        <input v-model="heroToAdd" />
+                      </label>
+                      <!-- (click) passes input value to add() and then clears the input -->
+                      <button @click="addHero(heroToAdd)">
+                        add
+                      </button>
+                    </div>
+                    <h2>My Heroes</h2>
+                    <ul class="heroes">
+                      <router-link v-for="(hero, index) in heroes" :key="index"  :to="'/hero/'+hero.id" >
+                        <li @click="onSelect(hero)" :class="{selected: hero.id === selectedHero.id}" >
+                            <span class="badge">{{hero.id}}</span> {{hero.name}}
+                            <button class="delete" title="delete hero" @click.prevent="deleteHero(hero)">x</button>
+                        </li>
+                      </router-link>
+                    </ul>
+                  </div>`
+      });
+
+      const HeroDetail = Vue.component('vue-hero-detail', { 
+        data() {
+          return {
+            hero: {}
+          }
+        },
+        filters: {
+          uppercase: function(value) {
+            return value.toUpperCase()
+          }
+        },
+        mounted: function() {
+          this.hero = api.getHero(this.$route.params.id)
+          
+        },
+        methods: {
+          goBack() {
+            this.$router.go(-1)
+          }
+        },
+        template: `
+                  <div v-if="hero.id">
+                    <h2>{{hero.name || uppercase}} Details</h2>
+                    <div><span>id: </span>{{hero.id}}</div>
+                    <div>
+                      <label>name:
+                        <input v-model="hero.name" placeholder="name"/>
+                      </label>
+                    </div>
+                    <button @click="goBack()">go back</button>
+                  </div>`
+      });
+
+      // Create a vue instance to make use of the reactivity 
+      const messageService = new Vue({
+        data: function() {
+          return {
+            messages: [],
+          }
+        },
+        methods: { 
+          add: function(message) {
+            this.messages.push(message)
+          },
+          clear: function() {
+            this.messages = [];
+          }
+        },
+      })
+
+      Vue.prototype.$messageService = messageService;
+
+      const api = {
+        getHeroes() {
+          Vue.prototype.$messageService.add('Fetched heroes')
+          return heroes;
+        },
+        getHero(id) {
+          Vue.prototype.$messageService.add('Fetched hero with id: ' + id)
+          return heroes.find(hero => hero.id == id) || {}
+        },
+        addHero(name) {
+          const maxId = heroes.reduce((max, hero) => max > hero.id ? max : hero.id, -1)
+          const heroToAdd = hero({id: maxId + 1, name});
+          Vue.prototype.$messageService.add('Added hero: ' + heroToAdd)
+          heroes.push(heroToAdd)
+        },
+        deleteHero(hero) {
+          Vue.prototype.$messageService.add('Deleted hero with id: ' + hero.id)
+          heroes = heroes.filter(existingHero => existingHero.id != hero.id)
+        },
+        search(pattern) {
+          Vue.prototype.$messageService.add('Searching heros with: ' + pattern)
+          return heroes.filter(existingHero => existingHero.name.includes(pattern))
+        }
+      }
+
+
+      Vue.component('vue-message-service', {
+        computed: {
+          messageService() {
+            return this.$messageService 
+          }
+        },
+        template: `
+                  <div v-if="messageService.messages.length">
+                    <h2>Messages</h2>
+                    <button class="clear" @click="messageService.clear()">clear</button>
+                    <div v-for='message in messageService.messages'> {{message}} </div>
+                  </div>`
+      })
+
+      const Dashboard = Vue.component('vue-dashboard', { 
+        data() {
+          return {
+            heroes: []
+          }
+        },
+        mounted: function() {
+          this.heroes = api.getHeroes().slice(1, 5)
+          
+        },
+        template: `
+                  <div style="display: flex; flex-direction: column;" >
+                    <h3>Top Heroes</h3>
+                    <div class="grid grid-pad">
+                      <router-link v-for="(hero, index) in heroes" class="col-1-4" :key="index" to="/hero/${hero.id}">
+                        <div class="module hero">
+                          <h4>{{hero.name}}</h4>
+                        </div>
+                      </router-link>
+                    </div>
+                    <vue-hero-search></vue-hero-search>
+                  </div>`
+      });
+
+      Vue.component('vue-hero-search', {
+        data() {
+          return {
+            search: '',
+            heroes: []
+          }
+        },
+        methods: {
+          fetchHeros() {
+            if(!this.search) {
+              this.heroes = [];
+            } else {
+              this.heroes = api.search(this.search)
+            }
+          }
+        },
+        template: `
+                  <div id="search-component">
+                    <h4>Hero Search</h4>
+                  
+                    <input id="search-box" v-model="search" @input="fetchHeros" />
+                  
+                    <ul class="search-result">
+                      <li v-for="hero in heroes" :key="hero.id" >
+                        <router-link :to="'/hero/'+hero.id">
+                          {{hero.name}}
+                        </router-link>
+                      </li>
+                    </ul>
+                  </div>`
+      })
+
+      const routes = [
+        { path: '/dashboard', component: Dashboard },
+        { path: '/heroes', component: Heroes },
+        { path: '/hero/:id', component: HeroDetail }
+      ]
+
+      const router = new VueRouter({
+        routes // short for `routes: routes`
+      })
+
+      var app = new Vue({
+        router,
+        el: '#app',
+        data: {
+          title: 'Heroes of Vue'
+        }
+      });
+
+
+    }
+  </script>
+</head>
+  <body>
+    <div id="app">
+      <h1>{{title}}</h1>
+      <nav>
+        <router-link to="/dashboard">Dashboard</router-link>
+        <router-link to="/heroes">Heroes</router-link>
+      </nav>
+      <router-view></router-view>
+      <vue-message-service></vue-message-service>
+    </div>
+  </body>
+</html>
