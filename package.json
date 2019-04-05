@@ -1,7 +1,7 @@
 {
   "name": "heroes-of-vue",
   "version": "1.0.0",
-  "description": "Heroes of Vue",
+  "description": "My take on the Angular tutorial 'Tour of Heroes' done in Vue",
   "main": "index.js",
   "directories": {
     "doc": "docs"
