@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Heroes of Vue - Part 4 - two-way data binding</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css"> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+
+    </style>
+    <script>
+        const HeroDetail = Vue.component('vue-hero-detail', {
+            data() {
+                return {
+                    hero: {
+                        id: 1,
+                        name: 'Evan You'
+                    }
+                }
+            },
+            filters: {
+                uppercase: function (value) {
+                    return value.toUpperCase()
+                }
+            },
+            template: `
+                  <div v-if="hero.id">
+                    <h2>{{hero.name | uppercase}} Details</h2>
+                    <div><span>id: </span>{{hero.id}}</div>
+                    <div>
+                      <label>name:
+                        <input v-model="hero.name" placeholder="name"/>
+                        <input v-bind:value="hero.name" v-on:input="hero.name = $event.target.value" placeholder="name"/>
+                      </label>
+                    </div>
+                  </div>`
+        });
+
+        window.onload = function () {
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    hello: 'Hello heroes!'
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <div id="app" class="p-8">
+        <h1 class="text-blue-500 text-3xl">{{ hello }}</h1>
+        <vue-hero-detail />
+    </div>
+</body>
+
+</html>

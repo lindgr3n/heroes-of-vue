@@ -83,7 +83,7 @@ Look at [part2](https://heroes-of-vue.netlify.com/part2.html) to see it in actio
 
 ### Filters
 
-Would it not look better to show the hero name in uppercase? Could just do `{{hero.name.toUpperCase()}} or do the same in the data object. But then we get some logic in the template. Instead we can take use of Vues   [Filter system](https://vuejs.org/v2/guide/filters.html). 
+Would it not look better to show the hero name in uppercase? Could just do `{{hero.name.toUpperCase()}} or do the same in the data object. But then we get some special logic in the template and no possibility to reuse the logic. Instead we can take use of Vues [Filter system](https://vuejs.org/v2/guide/filters.html).
 
 Here we can define a filter on our component.
 
@@ -103,15 +103,52 @@ Then we can update our template to use
 
 Look at [part3](https://heroes-of-vue.netlify.com/part3.html) to see it in action.
 
-Here we can chain multiple filter together `{{ message | filterA | filterB }}` if we like.
+Here we could chain multiple filter together `{{ message | filterA | filterB }}` if we like.
 
 We also have the ability to register a global filter so we don't need to set it up on the component.
-```
+
+```js
 Vue.filter('uppercase', function (value) {
   if (!value) return ''
   return value.toUpperCase()
 })
 ```
+
+## Edit
+
+Just showing the data is a good start. But to show some data we also need a way to add and edit the data.
+First thing that comes in mind is to place a input box and add a event listener on change and save the value for each value entered. This would work just fine. But Vue have a ace up its sleeve. [Two-way data binding!](https://vuejs.org/v2/guide/forms.html)
+
+### Two-way data binding
+
+What is two-way data binding? Its a way to "connect" a value with a input form. Here we use Vues v-model.
+So lets introduce it in [part4](https://heroes-of-vue.netlify.com/part4.html) to give the ability to update our heroes name!
+
+Lets add a input and hook on v-model
+
+```html
+<input v-model="hero.name" placeholder="name"/>
+```
+
+Now when we type in our textbox the `hero.name` will automatically update thanks to the v-model!
+
+To know what the "magic" is behind `v-model` we can do the following
+
+```html
+<input
+  v-bind:value="hero.name"
+  v-on:input="hero.name = $event.target.value"
+>
+```
+
+This is the same thing as v-model does in the background. So just for exercise lets add a second input without v-model
+
+```html
+<input v-model="hero.name" placeholder="name"/>
+<input v-bind:value="hero.name" v-on:input="hero.name = $event.target.value" placeholder="name"/>
+```
+
+Now you can type in either of the input boxes and the name will update on all tree places! Amazing!
 
 ## Set up style
 
