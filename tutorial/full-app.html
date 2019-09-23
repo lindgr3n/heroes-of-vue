@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,17 +11,19 @@
   <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
   <style>
     /* Application-wide Styles */
-   /* AppComponent's private CSS styles */
+    /* AppComponent's private CSS styles */
     h1 {
       font-size: 1.2em;
       color: #999;
       margin-bottom: 0;
     }
+
     h2 {
       font-size: 2em;
       margin-top: 0;
       padding-top: 0;
     }
+
     nav a {
       padding: 5px 10px;
       text-decoration: none;
@@ -29,13 +32,17 @@
       background-color: #eee;
       border-radius: 4px;
     }
-    nav a:visited, a:link {
+
+    nav a:visited,
+    a:link {
       color: #607d8b;
     }
+
     nav a:hover {
       color: #039be5;
       background-color: #cfd8dc;
     }
+
     nav a.active {
       color: #039be5;
     }
@@ -45,12 +52,14 @@
       background-color: #CFD8DC !important;
       color: white;
     }
+
     .heroes {
       margin: 0 0 2em 0;
       list-style-type: none;
       padding: 0;
       width: 15em;
     }
+
     .heroes li {
       cursor: pointer;
       position: relative;
@@ -61,19 +70,23 @@
       height: 1.6em;
       border-radius: 4px;
     }
+
     .heroes li.selected:hover {
       background-color: #BBD8DC !important;
       color: white;
     }
+
     .heroes li:hover {
       color: #607D8B;
       background-color: #DDD;
       left: .1em;
     }
+
     .heroes .text {
       position: relative;
       top: -3px;
     }
+
     .heroes .badge {
       display: inline-block;
       font-size: small;
@@ -95,12 +108,15 @@
       padding-right: 20px;
       padding-bottom: 20px;
     }
+
     [class*='col-']:last-of-type {
       padding-right: 0;
     }
+
     a {
       text-decoration: none;
     }
+
     /* *, *:after, *:before {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
@@ -110,15 +126,19 @@
       text-align: center;
       margin-bottom: 0;
     }
+
     h4 {
       position: relative;
     }
+
     .grid {
       margin: 0;
     }
+
     .col-1-4 {
       width: 25%;
     }
+
     .module {
       padding: 20px;
       text-align: center;
@@ -128,26 +148,33 @@
       background-color: #607d8b;
       border-radius: 2px;
     }
+
     .module:hover {
       background-color: #eee;
       cursor: pointer;
       color: #607d8b;
     }
+
     .grid-pad {
       padding: 10px 0;
     }
-    .grid-pad > [class*='col-']:last-of-type {
+
+    .grid-pad>[class*='col-']:last-of-type {
       padding-right: 20px;
     }
+
     @media (max-width: 600px) {
       .module {
         font-size: 10px;
-        max-height: 75px; }
+        max-height: 75px;
+      }
     }
+
     @media (max-width: 1024px) {
       .grid {
         margin: 0;
       }
+
       .module {
         min-width: 60px;
       }
@@ -165,43 +192,45 @@
       cursor: pointer;
       list-style-type: none;
     }
-    
+
     .search-result li:hover {
       background-color: #607D8B;
     }
-    
+
     .search-result li a {
       color: #888;
       display: block;
       text-decoration: none;
     }
-    
+
     .search-result li a:hover {
       color: white;
     }
+
     .search-result li a:active {
       color: white;
     }
+
     #search-box {
       width: 200px;
       height: 20px;
     }
-    
-    
+
+
     ul.search-result {
       margin-top: 0;
       padding-left: 0;
     }
   </style>
   <script>
-    window.onload = function() {
-      const hero = function({id, name}) {
+    window.onload = function () {
+      const hero = function ({ id, name }) {
         return {
           id,
           name
-       }
+        }
       };
-      
+
       // From https://vuejs.org/v2/guide/team.html
       let heroes = [
         { id: 11, name: 'Evan You' },
@@ -226,23 +255,23 @@
         { id: 30, name: 'Pine' }
       ].map(hero);
 
-      const Heroes = Vue.component('vue-heroes', { 
-        data: function() {
+      const Heroes = Vue.component('vue-heroes', {
+        data: function () {
           return {
             heroes: [],
             selectedHero: {},
             heroToAdd: ''
           }
         },
-        mounted: function() {
+        mounted: function () {
           this.heroes = api.getHeroes()
-          
+
         },
         methods: {
-          onSelect: function(hero) {
+          onSelect: function (hero) {
             this.selectedHero = hero;
           },
-          addHero: function() {
+          addHero: function () {
             api.addHero(this.heroToAdd)
           },
           deleteHero(hero) {
@@ -273,20 +302,20 @@
                   </div>`
       });
 
-      const HeroDetail = Vue.component('vue-hero-detail', { 
+      const HeroDetail = Vue.component('vue-hero-detail', {
         data() {
           return {
             hero: {}
           }
         },
         filters: {
-          uppercase: function(value) {
+          uppercase: function (value) {
             return value.toUpperCase()
           }
         },
-        mounted: function() {
+        mounted: function () {
           this.hero = api.getHero(this.$route.params.id)
-          
+
         },
         methods: {
           goBack() {
@@ -308,16 +337,16 @@
 
       // Create a vue instance to make use of the reactivity 
       const messageService = new Vue({
-        data: function() {
+        data: function () {
           return {
             messages: [],
           }
         },
-        methods: { 
-          add: function(message) {
+        methods: {
+          add: function (message) {
             this.messages.push(message)
           },
-          clear: function() {
+          clear: function () {
             this.messages = [];
           }
         },
@@ -336,7 +365,7 @@
         },
         addHero(name) {
           const maxId = heroes.reduce((max, hero) => max > hero.id ? max : hero.id, -1)
-          const heroToAdd = hero({id: maxId + 1, name});
+          const heroToAdd = hero({ id: maxId + 1, name });
           Vue.prototype.$messageService.add('Added hero: ' + heroToAdd)
           heroes.push(heroToAdd)
         },
@@ -354,7 +383,7 @@
       Vue.component('vue-message-service', {
         computed: {
           messageService() {
-            return this.$messageService 
+            return this.$messageService
           }
         },
         template: `
@@ -365,21 +394,21 @@
                   </div>`
       })
 
-      const Dashboard = Vue.component('vue-dashboard', { 
+      const Dashboard = Vue.component('vue-dashboard', {
         data() {
           return {
             heroes: []
           }
         },
-        mounted: function() {
-          this.heroes = api.getHeroes().slice(1, 5)
-          
+        mounted: function () {
+          this.heroes = api.getHeroes().slice(0, 5)
+
         },
         template: `
                   <div style="display: flex; flex-direction: column;" >
                     <h3>Top Heroes</h3>
                     <div class="grid grid-pad">
-                      <router-link v-for="(hero, index) in heroes" class="col-1-4" :key="index" to="/hero/${hero.id}">
+                      <router-link v-for="(hero, index) in heroes" class="col-1-4" :key="index" :to="'hero/'+hero.id">
                         <div class="module hero">
                           <h4>{{hero.name}}</h4>
                         </div>
@@ -398,7 +427,7 @@
         },
         methods: {
           fetchHeros() {
-            if(!this.search) {
+            if (!this.search) {
               this.heroes = [];
             } else {
               this.heroes = api.search(this.search)
@@ -443,15 +472,17 @@
     }
   </script>
 </head>
-  <body>
-    <div id="app">
-      <h1>{{title}}</h1>
-      <nav>
-        <router-link to="/dashboard">Dashboard</router-link>
-        <router-link to="/heroes">Heroes</router-link>
-      </nav>
-      <router-view></router-view>
-      <vue-message-service></vue-message-service>
-    </div>
-  </body>
+
+<body>
+  <div id="app">
+    <h1>{{title}}</h1>
+    <nav>
+      <router-link to="/dashboard">Dashboard</router-link>
+      <router-link to="/heroes">Heroes</router-link>
+    </nav>
+    <router-view></router-view>
+    <vue-message-service></vue-message-service>
+  </div>
+</body>
+
 </html>
