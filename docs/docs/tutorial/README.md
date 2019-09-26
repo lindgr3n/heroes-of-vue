@@ -66,7 +66,7 @@ const HeroDetail = Vue.component('vue-hero-detail', {
           }
         },
         template: `
-                  <div v-if="hero.id">
+                  <div>
                     <h2>{{hero.name}} Details</h2>
                     <div><span>id: </span>{{hero.id}}</div>
                   </div>`
@@ -83,7 +83,7 @@ Look at [part2](https://heroes-of-vue.netlify.com/part2.html) to see it in actio
 
 ### Filters
 
-Would it not look better to show the hero name in uppercase? Could just do `{{hero.name.toUpperCase()}} or do the same in the data object. But then we get some special logic in the template and no possibility to reuse the logic. Instead we can take use of Vues [Filter system](https://vuejs.org/v2/guide/filters.html).
+Would it not look better to show the hero name in uppercase? Could just do `hero.name.toUpperCase()` or do the same in the data object. But then we get some special logic in the template and no possibility to reuse the logic. Instead we can take use of Vues [Filter system](https://vuejs.org/v2/guide/filters.html).
 
 Here we can define a filter on our component.
 
@@ -103,7 +103,11 @@ Then we can update our template to use
 
 Look at [part3](https://heroes-of-vue.netlify.com/part3.html) to see it in action.
 
-Here we could chain multiple filter together `{{ message | filterA | filterB }}` if we like.
+Here we could chain if we like multiple filter together
+
+```js
+message | filterA | filterB
+```
 
 We also have the ability to register a global filter so we don't need to set it up on the component.
 
@@ -150,7 +154,49 @@ This is the same thing as v-model does in the background. So just for exercise l
 
 Now you can type in either of the input boxes and the name will update on all tree places! Amazing!
 
+## More heroes
+
+Vue have the super hero but Vue exist of alot of heroes! So lets add more heroes in [part5](https://heroes-of-vue.netlify.com/part5.html)!
+
+First we add a list of heroes that we got from the [Vue team](https://vuejs.org/v2/guide/team.html).
+
+Then we can create a new component to show our great heroes!
+
+Lets crate a new component like before named `vue-heroes` that will use our list of heroes.
+
+Hold your horses! Now i see that strange `v-` thing on my elements again. `v-for`, `v-model` and `v-bind` What is it? Also i found a typo in `:key="index"`. Should not be a `:` there!
+
+Ohh, sry. Think i forgot to explain a main point in Vue language.
+
+### Directives
+
+The thing you seen `v-` is called [directives](https://vuejs.org/v2/guide/syntax.html#Directives). And they have special meaning in Vue. If you are coming from Angular you know it as `ng-`.
+
+Take a quick look at the Vue directive documentation and get back here. Ill wait :)
+So lets take it from the beginning. If we go back to the `Two-way data binding` we used something called `v-model` to bind our value to be reactive. In the extra exercise we used `v-bind` to reactively update the html value.
+
+In this part we found your "typo" `:key` that is not a typo! Its a [shorthand](https://vuejs.org/v2/guide/syntax.html#Shorthands) to save some typing :)
+
+`v-bind:key` is the same as `:key`. We also have `v-on:click` that works the same as `@click`!
+
+So by now i think you could figure out what `v-for` does? You are correct! It makes a loop.
+
+```html
+<div v-for="(hero, index) in heroes" :key="index" >
+    <li>
+        <span class="badge">{{hero.id}}</span> {{hero.name}}
+    </li>
+</div>
+```
+
+Here we use our array of `heroes` and for each hero we will crate a div with the content. Because our array exist of objects we can access its properties on the defined variable `hero`.
+
 ## Set up style
+
+Now that we have the ability to edit our hero and show some more heroes. Lets make some styling to it. Here i will use the same style from "Tour of heroes". They did a good job! 
+
+In the next version using Vue-cli we will introduce [TailwindCSS](https://tailwindcss.com/) a css framework or rather a css utility library to make more of our own style.
+
 
 ## Some more info
 
