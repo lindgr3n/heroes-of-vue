@@ -193,9 +193,75 @@ Here we use our array of `heroes` and for each hero we will crate a div with the
 
 ## Set up style
 
-Now that we have the ability to edit our hero and show some more heroes. Lets make some styling to it. Here i will use the same style from "Tour of heroes". They did a good job! 
+Now that we have the ability to edit our hero and show some more heroes. Lets make some styling to it. Here i will use the same style from "Tour of heroes". They did a good job!
 
 In the next version using Vue-cli we will introduce [TailwindCSS](https://tailwindcss.com/) a css framework or rather a css utility library to make more of our own style.
+
+How fun is it to have a list but we cant do anything with it? Lets add the ability to select our heroes in [part6](https://heroes-of-vue.netlify.com/part6.html)!
+
+## Selection of our heroes
+
+Lets start by adding a click listener on our list using `@click` (Remember from earlier thats the same as `v-on:click`). To know where we are clicking we get use of the style we added in last part.
+
+So here we use a new value `selectedHero` that we set using our method `onSelect` 
+that will add/remove our selected class.
+
+```html
+<ul class="heroes">
+    <div v-for="(hero, index) in heroes" :key="index" >
+        <li @click="onSelect(hero)" :class="{selected: hero.id === selectedHero.id}" >
+            <span class="badge">{{hero.id}}</span> {{hero.name}}
+        </li>
+    </div>
+</ul>
+```
+
+So what can we do now? Lets update our detail view with the selected component!
+
+## Show hero details
+
+Currently we have a hard coded hero in our details component. To make it dynamic we need to use [props](https://vuejs.org/v2/guide/components-props.html). Take a quick look in the documentation! But in short its how we can pass in our selected hero into our detail component to use.
+
+```js
+ props: {
+    hero: {
+        type: Object,
+        default: () => { }
+    }
+},
+data() {
+    return {
+
+    }
+},
+```
+
+Doing this you will notice that our uppercase filter will get broken because value will be undefined.  So we can fix this with a minor check.
+
+```js
+uppercase: function (value) {
+    if (!value) return '';
+    return value.toUpperCase()
+}
+```
+
+So to make use of the selected component we move our detail component inside our heroes component.
+
+```html
+<vue-hero-detail :hero="selectedHero"></vue-hero-detail>
+<h2>My Heroes</h2>
+```
+
+You will also notice when we select a hero and edit its name we get updates in our list!
+
+## State management
+
+Currently we have a global list of heroes. This works but what if we want to get a updated list? Best way would be to have some kind of api to get our heroes. 
+
+Angular talks about something called services. In Vue a good way would be to use a [Vue plugin](https://vuejs.org/v2/guide/plugins.html). So lets build something like that in [part7](https://heroes-of-vue.netlify.com/part7.html)!
+
+## Vue plugin
+
 
 
 ## Some more info
