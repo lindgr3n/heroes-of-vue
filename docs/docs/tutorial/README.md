@@ -256,15 +256,241 @@ You will also notice when we select a hero and edit its name we get updates in o
 
 ## State management
 
-Currently we have a global list of heroes. This works but what if we want to get a updated list? Best way would be to have some kind of api to get our heroes. 
+Currently we have a global list of heroes. This works but what if we want to get a updated list? Best way would be to have some kind of api to get our heroes.
 
 Angular talks about something called services. In Vue a good way would be to use a [Vue plugin](https://vuejs.org/v2/guide/plugins.html). So lets build something like that in [part7](https://heroes-of-vue.netlify.com/part7.html)!
 
+## Message service
+
+Angular tutorial adds something called message service used to log what ishappening in the application. To make something similar in Vue we can make use of the Vue prototype. And include it in our Vue plugin that contains our api requests also :).
+
+Our message service is just list of messages and two methods to add and clear our messages.
+
+```js
+const messageService = new Vue({
+    data: function () {
+        return {
+            messages: [],
+        }
+    },
+    methods: {
+        add: function (message) {
+            this.messages.push(message)
+        },
+        clear: function () {
+            this.messages = [];
+        }
+    },
+})
+```
+
+Here we make a new instance of Vue to make use of Vues reactiveness. So when we call our methods our messages will trigger a re-render.
+
 ## Vue plugin
 
+To start creating our plugin we start by crating a empty object. The main thing our plugin needs is a install method. So we can install it using `Vue.use`
+
+```js
+const HeroesApi = {};
+HeroesApi.install = function (Vue, options) {
+  console.log('Plugin installed!)
+}
+
+Vue.use(HeroesApi)
+```
+
+This is our basic plugin. Running this will print 'Plugin installed!' in the console. In [part8](https://heroes-of-vue.netlify.com/part8.html) we will add our api and include our messageService.
+
+### Heroes Api
+
+Our api will consist of five different methods. This methods we store in a parameter `api`. By adding this in our plugin we can expose it by adding it to the prototype chain. That is `Vue.prototype.$heroesApi = api;`
+
+```js
+HeroesApi.install = function (Vue, options) {
+  const api = {
+    getHeroes() {
+        return heroes;
+    },
+    getHero(id) {
+        return heroes.find(hero => hero.id == id) || {}
+    },
+    addHero(name) {
+        const maxId = heroes.reduce((max, hero) => max > hero.id ? max : hero.id, -1)
+        const heroToAdd = hero({ id: maxId + 1, name });
+        heroes.push(heroToAdd)
+    },
+    deleteHero(hero) {
+        heroes = heroes.filter(existingHero => existingHero.id != hero.id)
+    },
+    search(pattern) {
+        return heroes.filter(existingHero => existingHero.name.includes(pattern))
+    }
+  }
+  Vue.prototype.$heroesApi = api;
+}
+```
+
+Now we can test it by running `Vue.prototype.$heroesApi.getHeroes()` and we can see that it returns our heroes list. In [part9](https://heroes-of-vue.netlify.com/part9.html) we will include our message service!
+
+### Message service plugin
+
+Now our plugin is almost ready. Last piece is to include the message service. Remember what we did earlier? Now we can include that instance in our plugin and make use of our methods. So our final plugin will look like
+
+```js
+HeroesApi.install = function (Vue, options) {
+  const messageService = new Vue({
+      data: function () {
+          return {
+              messages: [],
+          }
+      },
+      methods: {
+          add: function (message) {
+              this.messages.push(message)
+          },
+          clear: function () {
+              this.messages = [];
+          }
+      },
+  })
+
+  Vue.prototype.$messageService = messageService;
 
 
-## Some more info
+  const api = {
+      getHeroes() {
+          Vue.prototype.$messageService.add('Fetched heroes')
+          return heroes;
+      },
+      getHero(id) {
+          Vue.prototype.$messageService.add('Fetched hero with id: ' + id)
+          return heroes.find(hero => hero.id == id) || {}
+      },
+      addHero(name) {
+          const maxId = heroes.reduce((max, hero) => max > hero.id ? max : hero.id, -1)
+          const heroToAdd = hero({ id: maxId + 1, name });
+          Vue.prototype.$messageService.add('Added hero: ' + heroToAdd)
+          heroes.push(heroToAdd)
+      },
+      deleteHero(hero) {
+          Vue.prototype.$messageService.add('Deleted hero with id: ' + hero.id)
+          heroes = heroes.filter(existingHero => existingHero.id != hero.id)
+      },
+      search(pattern) {
+          Vue.prototype.$messageService.add('Searching heros with: ' + pattern)
+          return heroes.filter(existingHero => existingHero.name.includes(pattern))
+      }
+  }
+  Vue.prototype.$heroesApi = api;
+}
+```
+
+If you notice from the full-app we did not use a plugin! Adding a plugin here was just to show how one could do it :)
+
+### Refactor the heroes list
+
+Now the plugin we did would not work outside this page because it uses the global heroes list. What if we refactored and included the heroes in our plugin?
+
+Take a moment and see if you can manage to do it. Ill just go and get some coffee in the meantime :)
+
+Done? Great! If you just continued reading and just wanted the answer, this is how i did it in [part10](https://heroes-of-vue.netlify.com/part10.html)
+
+Fist just move the heroes list and hero object inside our plugin.
+
+```js
+HeroesApi.install = function (Vue, options) {
+  const hero = function ({ id, name }) {
+      return {
+          id,
+          name
+      }
+  };
+
+  // From https://vuejs.org/v2/guide/team.html
+  let heroes = [
+      { id: 11, name: 'Evan You' },
+      { id: 12, name: 'Kazupon' },
+      { id: 13, name: 'Guillaume Chau' },
+      { id: 14, name: 'Sodatea' },
+      { id: 15, name: 'Damian Dulisz' },
+      { id: 16, name: 'Katashin' },
+      { id: 17, name: 'Eduardo' },
+      { id: 18, name: 'Sarah Drasner' },
+      { id: 19, name: 'Jinjiang' },
+      { id: 20, name: 'Rahul Kadyan' },
+      { id: 21, name: 'Pine Wu' },
+      { id: 22, name: 'Darek G Wędrychowski' },
+      { id: 23, name: 'Michał Sajnóg' },
+      { id: 24, name: 'Chris Fritz' },
+      { id: 25, name: 'Phan An' },
+      { id: 26, name: 'ULIVZ' },
+      { id: 27, name: 'Linusborg' },
+      { id: 28, name: 'GU Yiling' },
+      { id: 29, name: 'Edd Yerburgh' },
+      { id: 30, name: 'Pine' }
+  ].map(hero);
+// ...
+}
+```
+
+If you run the application now it will totally break! That is because our components no longer have access to the heroes variable.
+
+To fix this we can use the power of our plugin :)
+
+Remember the name in our plugin for exposing our api? `Vue.prototype.$heroesApi = api;`
+
+So the thing we can do is to refactor our `<vue-heroes>` component to use our api instead of using the global variable.
+
+```js
+data: function () {
+    return {
+        heroes: [],
+        selectedHero: {}
+    }
+},
+mounted: function () {
+    this.heroes = this.$heroesApi.getHeroes()
+},
+```
+
+Now when you reload the application it should work as before! Also we now have a working message service! in [part11](https://heroes-of-vue.netlify.com/part11.html) we will create a new component so you can see it in action.
+
+## Message service component
+
+Give it a shot and try and implement your own `vue-message-service` component and include it in our app template. You will need to
+
+* Get the list from our plugin
+* Loop over the messages and show the content.
+* (bonus) add a button to clear the messages
+
+Brb getting some more coffee!
+
+So did you manage? :)
+
+Here is my implementation
+
+```js
+Vue.component('vue-message-service', {
+    computed: {
+        messageService() {
+            return this.$messageService
+        }
+    },
+    template: `
+            <div v-if="messageService.messages.length">
+                <h2>Messages</h2>
+                <button class="clear" @click="messageService.clear()">clear</button>
+                <div v-for='message in messageService.messages'> {{message}} </div>
+            </div>`
+})
+```
+Currently you will only see one message because we are only trigging the fetch inside our `vue-heroes`component. If you would like to try you can open the developer tools in the browser and type `Vue.prototype.$heroesApi.getHeroes()` in the console. Notice the `vue-message-service` component should update its list.
+
+## Routing
+
+Currently we have everything rendering in our app template. But what if we added a dashboard? Would starting to get a lot of information in the same place.
+
+We would like the dashboard and list of heroes be rendered by themself and the when clicking a hero its detail view will open.
 
 ## This is great
 
