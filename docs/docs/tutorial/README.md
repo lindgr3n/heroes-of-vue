@@ -488,9 +488,80 @@ Currently you will only see one message because we are only trigging the fetch i
 
 ## Routing
 
-Currently we have everything rendering in our app template. But what if we added a dashboard? Would starting to get a lot of information in the same place.
+Currently we have everything rendering in our app template. But what if we added a dashboard? We would start to get a lot of information in the same place.
 
-We would like the dashboard and list of heroes be rendered by themself and the when clicking a hero its detail view will open.
+We would like the dashboard and list of heroes be rendered by themself and the when clicking a hero its detail view will open. Here we can use [vue-router](https://router.vuejs.org/) Lets set up our routes in [part12](https://heroes-of-vue.netlify.com/part12.html)
 
-## This is great
+First we need to include vue router in the `head`
+
+```html
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+```
+
+Lets start by creating our routes
+
+```js
+const routes = [
+  { path: '/dashboard', component: Dashboard },
+  { path: '/heroes', component: Heroes },
+  { path: '/hero/:id', component: HeroDetail }
+]
+```
+
+Here we define that calling `http://locahost/dashboard` will render Dashboard component. `/heroes` our Heroes component.
+
+Next we create our router
+
+```js
+const router = new VueRouter({
+    routes // short for `routes: routes`
+})
+```
+
+Last we inject our router to the Vue instance.
+
+```js
+var app = new Vue({
+    router,
+    el: '#app',
+    data: {
+        hello: 'Hello heroes!'
+    }
+});
+```
+
+## Dashboard
+
+Last thing we need to create is the Dashboard component where we show the top 5 heroes.
+
+```js
+const Dashboard = Vue.component('vue-dashboard', {
+    data() {
+        return {
+            heroes: []
+        }
+    },
+    mounted: function () {
+        this.heroes = api.getHeroes().slice(0, 5)
+
+    },
+    template: `
+            <div style="display: flex; flex-direction: column;" >
+                <h3>Top Heroes</h3>
+                <div class="grid grid-pad">
+                <div v-for="(hero, index) in heroes" class="col-1-4" :key="index" >
+                    <div class="module hero">
+                    <h4>{{hero.name}}</h4>
+                    </div>
+                </div>
+                </div>
+            </div>`
+});
+```
+
+Now we have a router but it don't really do anything yet. This we will fix in part13](https://heroes-of-vue.netlify.com/part13.html)
+
+## Router-view
+
+
 
