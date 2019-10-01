@@ -484,6 +484,7 @@ Vue.component('vue-message-service', {
             </div>`
 })
 ```
+
 Currently you will only see one message because we are only trigging the fetch inside our `vue-heroes`component. If you would like to try you can open the developer tools in the browser and type `Vue.prototype.$heroesApi.getHeroes()` in the console. Notice the `vue-message-service` component should update its list.
 
 ## Routing
@@ -559,7 +560,7 @@ const Dashboard = Vue.component('vue-dashboard', {
 });
 ```
 
-Now we have a router but it don't really do anything yet. This we will fix in part13](https://heroes-of-vue.netlify.com/part13.html)
+Now we have a router but it don't really do anything yet. This we will fix in [part13](https://heroes-of-vue.netlify.com/part13.html)
 
 ## Router-view
 
