@@ -560,9 +560,62 @@ const Dashboard = Vue.component('vue-dashboard', {
 });
 ```
 
+To show it we add it to our main template.
+
+```html
+<div id="app" class="p-8">
+      <h1 class="text-blue-500 text-3xl">{{ hello }}</h1>
+      <vue-dashboard></vue-dashboard>
+      <vue-message-service></vue-message-service>
+      <vue-heroes></vue-heroes>
+  </div>
+```
+
+Well that did not look pretty. Let add some style for it.
+
 Now we have a router but it don't really do anything yet. This we will fix in [part13](https://heroes-of-vue.netlify.com/part13.html)
 
 ## Router-view
 
+To make use of the power vue-router gives we need to use a element called `<router-view>` This will render the component our routes point at. So calling `http://localhost:3000/dashboard` will make the `<router-view>` render our `Dashboard` component.
+
+So lets update our app template by including our `<router-view>` And also add links to be able to switch between the dashboard and our heroes list.
+
+```html
+<div id="app" class="p-8">
+    <h1>{{title}}</h1>
+    <nav>
+        <router-link to="/dashboard">Dashboard</router-link>
+        <router-link to="/heroes">Heroes</router-link>
+    </nav>
+    <router-view></router-view>
+    <vue-message-service></vue-message-service>
+</div>
+```
+
+Running the application now we can move between our two components :)
+To make it look a bit better we add some more style for our links.
+
+Getting close to the final-app! Things we are missing is adding more heroes and searching heroes! Lets get going on that in [part14](https://heroes-of-vue.netlify.com/part14.html)
+
+## Creating heroes
+
+So now we can display and edit heroes. Lets add the ability to add more heroes.
+
+Lets add a input above our heros list.
+
+```html
+<div>
+    <label>Hero name:
+        <input v-model="heroToAdd" />
+    </label>
+    <!-- (click) passes input value to add() and then clears the input -->
+    <button @click="addHero(heroToAdd)">
+        add
+    </button>
+</div>
+```
+
+To make this work we make use of a v-model on our input to store the heroes name. Then we add a method `addHero` that will add the new hero to our list.
 
 
