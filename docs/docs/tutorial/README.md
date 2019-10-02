@@ -618,4 +618,9 @@ Lets add a input above our heros list.
 
 To make this work we make use of a v-model on our input to store the heroes name. Then we add a method `addHero` that will add the new hero to our list.
 
+Lets add one more thing while we are on our heroes list. Removing heroes from the list.
+
+To be able to remove items from the list we add a button on our list items.
+`<button class="delete" title="delete hero" @click.prevent="deleteHero(hero)">x</button>` and we need to add the method `deleteHero`.
+
 
