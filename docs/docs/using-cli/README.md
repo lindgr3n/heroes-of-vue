@@ -1,19 +1,9 @@
 ---
-
+description: Basics using Vue and building application
 ---
 
 # Using Vue-cli
-In this part we will make use of Vue-cli to build the application we did in part one. Think this will show the power when using the cli tool and single file components (SFC)
 
-## Setup
-asdome more
+In this part we will make use of Vue-cli to build the application we did in part one. I think this will show the power when using the cli tool and single file components (SFC).
 
-## First component
-asdasd
-
-## Set up style
-
-## Some more info
-
-## This is great
-asd
+Check back later!
