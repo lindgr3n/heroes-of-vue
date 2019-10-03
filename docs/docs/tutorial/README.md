@@ -46,7 +46,7 @@ Next we create a standard html template and we include Vue using a CDN link. [ge
 
 The Vue guide is excellent to explain how things work. Looking at [part1](https://heroes-of-vue.netlify.com/part1.html) and launch it in a browser we will see "Hello heroes!"
 
-## First component
+## Creating our First component
 
 When talking about frontend today you will have a hard time not read about components. Components is the frontends lego bricks to build applications. So how do we create a component in Vue?
 
@@ -80,7 +80,7 @@ Important to remember that global registration of components need to be done bef
 
 Look at [part2](https://heroes-of-vue.netlify.com/part2.html) to see it in action.
 
-### Filters
+### Filters to transform data
 
 Would it not look better to show the hero name in uppercase? Could just do `hero.name.toUpperCase()` or do the same in the data object. But then we get some special logic in the template and no possibility to reuse the logic. Instead we can take use of Vues [Filter system](https://vuejs.org/v2/guide/filters.html).
 
@@ -117,12 +117,12 @@ Vue.filter('uppercase', function (value) {
 })
 ```
 
-## Edit
+## Two-way data binding
 
 Just showing the data is a good start. But to show some data we also need a way to add and edit the data.
 First thing that comes in mind is to place a input box and add a event listener on change and save the value for each value entered. This would work just fine. But Vue have a ace up its sleeve. [Two-way data binding!](https://vuejs.org/v2/guide/forms.html)
 
-### Two-way data binding
+### Edit our hero
 
 What is two-way data binding? Its a way to "connect" a value with a input form. Here we use Vues v-model.
 So lets introduce it in [part4](https://heroes-of-vue.netlify.com/part4.html) to give the ability to update our heroes name!
@@ -153,7 +153,7 @@ This is the same thing as v-model does in the background. So just for exercise l
 
 Now you can type in either of the input boxes and the name will update on all tree places! Amazing!
 
-## More heroes
+## Vue directives
 
 Vue have the super hero but Vue exist of a lot of heroes! So lets add more heroes in [part5](https://heroes-of-vue.netlify.com/part5.html)!
 
@@ -167,7 +167,7 @@ Hold your horses! Now i see that strange `v-` thing on my elements again. `v-for
 
 Ohh, sry. Think i forgot to explain a main point in Vue language.
 
-### Directives
+### Directives and shorthands
 
 The thing you seen `v-` is called [directives](https://vuejs.org/v2/guide/syntax.html#Directives). And they have special meaning in Vue. If you are coming from Angular you know it as `ng-`.
 
@@ -190,11 +190,11 @@ So by now i think you could figure out what `v-for` does? You are correct! It ma
 
 Here we use our array of `heroes` and for each hero we will crate a div with the content. Because our array exist of objects we can access its properties on the defined variable `hero`.
 
-## Set up style
+## Set up basic style
 
 Now that we have the ability to edit our hero and show some more heroes. Lets make some styling to it. Here i will use the same style from "Tour of heroes". They did a good job!
 
-In the next version using Vue-cli we will introduce [TailwindCSS](https://tailwindcss.com/) a css framework or rather a css utility library to make more of our own style.
+In the next version where we will be using `Vue-cli` we will introduce [TailwindCSS](https://tailwindcss.com/) a css framework or rather a css utility library to make more of our own style.
 
 How fun is it to have a list but we cant do anything with it? Lets add the ability to select our heroes in [part6](https://heroes-of-vue.netlify.com/part6.html)!
 
@@ -529,7 +529,7 @@ var app = new Vue({
 });
 ```
 
-## Dashboard
+## Dashboard component
 
 Last thing we need to create is the Dashboard component where we show the top 5 heroes.
 
@@ -596,9 +596,11 @@ To make it look a bit better we add some more style for our links.
 
 Getting close to the final-app! Things we are missing is adding more heroes and searching heroes! Lets get going on that in [part14](https://heroes-of-vue.netlify.com/part14.html)
 
-## Creating heroes
+## Managing heroes
 
 So now we can display and edit heroes. Lets add the ability to add more heroes.
+
+### Creating heroes
 
 Lets add a input above our heros list to add more heroes.
 
@@ -618,14 +620,14 @@ To make this work we make use of a v-model on our input to store the hero name. 
 
 Lets add one more thing while we are on our heroes list. Removing heroes from the list.
 
-## Removing heroes
+### Removing heroes
 
 To be able to remove items from the list we add a button on our list items.
 `<button class="delete" title="delete hero" @click.prevent="deleteHero(hero)">x</button>` and we need to add the method `deleteHero` that will call our api to remove the selected hero.
 
 Starting to look good! In [part15](https://heroes-of-vue.netlify.com/part15.html) we will add the ability to search for heroes.
 
-## Hero search
+### Hero search
 
 First thing to do is to update our api to handle search.
 
@@ -707,7 +709,7 @@ Remember we create a `vue-hero-detail` component in the beginning? Currently we 
 
 But that wont work yet... That is something we will fix in [part16](https://heroes-of-vue.netlify.com/part16.html) of the tutorial!
 
-## Route links
+## Route links component
 
 Currently we don't have any way to link between routes. Here we can make use of Vue routers `<router-link>` to move between routes.
 
