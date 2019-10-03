@@ -151,19 +151,43 @@
                 min-width: 60px;
             }
         }
+
+        /* Links */
+        nav a {
+            padding: 5px 10px;
+            text-decoration: none;
+            margin-top: 10px;
+            display: inline-block;
+            background-color: #eee;
+            border-radius: 4px;
+        }
+
+        nav a:visited,
+        a:link {
+            color: #607d8b;
+        }
+
+        nav a:hover {
+            color: #039be5;
+            background-color: #cfd8dc;
+        }
+
+        nav a.active {
+            color: #039be5;
+        }
     </style>
     <script>
         window.onload = function () {
             const HeroDetail = Vue.component('vue-hero-detail', {
                 props: {
-                    hero: {
-                        type: Object,
-                        default: () => { }
+                    id: {
+                        type: String,
+                        default: ''
                     }
                 },
                 data() {
                     return {
-
+                        hero: {}
                     }
                 },
                 filters: {
@@ -171,6 +195,9 @@
                         if (!value) return '';
                         return value.toUpperCase()
                     }
+                },
+                mounted: function () {
+                    this.hero = this.$heroesApi.getHero(this.id)
                 },
                 template: `
                   <div>
@@ -188,7 +215,8 @@
                 data: function () {
                     return {
                         heroes: [],
-                        selectedHero: {}
+                        selectedHero: {},
+                        heroToAdd: ''
                     }
                 },
                 mounted: function () {
@@ -198,19 +226,35 @@
                 methods: {
                     onSelect(hero) {
                         this.selectedHero = hero;
+                    },
+                    addHero: function () {
+                        this.$heroesApi.addHero(this.heroToAdd)
+                    },
+                    deleteHero(hero) {
+                        this.$heroesApi.deleteHero(hero);
+                        this.heroes = this.$heroesApi.getHeroes()
                     }
                 },
 
                 template: `
                         <div>
-                            <vue-hero-detail :hero="selectedHero"></vue-hero-detail>
+                            <div>
+                                <label>Hero name:
+                                    <input v-model="heroToAdd" />
+                                </label>
+                                <!-- (click) passes input value to add() and then clears the input -->
+                                <button @click="addHero(heroToAdd)">
+                                    add
+                                </button>
+                            </div>
                             <h2>My Heroes</h2>
                             <ul class="heroes">
-                                <div v-for="(hero, index) in heroes" :key="index" >
+                                <router-link v-for="(hero, index) in heroes" :key="index" :to="'/hero/'+hero.id" >
                                     <li @click="onSelect(hero)" :class="{selected: hero.id === selectedHero.id}" >
                                         <span class="badge">{{hero.id}}</span> {{hero.name}}
+                                        <button class="delete" title="delete hero" @click.prevent="deleteHero(hero)">x</button>
                                     </li>
-                                </div>
+                                </router-link>
                             </ul>
                         </div>`
             });
@@ -322,19 +366,52 @@
                         <div style="display: flex; flex-direction: column;" >
                             <h3>Top Heroes</h3>
                             <div class="grid grid-pad">
-                                <div v-for="(hero, index) in heroes" class="col-1-4" :key="index" >
+                                <router-link v-for="(hero, index) in heroes" class="col-1-4" :key="index" :to="'hero/'+hero.id" >
                                     <div class="module hero">
                                     <h4>{{hero.name}}</h4>
                                     </div>
-                                </div>
+                                </router-link>
                             </div>
+                            <vue-hero-search></vue-hero-search>
                         </div>`
             });
+
+            Vue.component('vue-hero-search', {
+                data() {
+                    return {
+                        search: '',
+                        heroes: []
+                    }
+                },
+                methods: {
+                    fetchHeros() {
+                        if (!this.search) {
+                            this.heroes = [];
+                        } else {
+                            this.heroes = this.$heroesApi.search(this.search)
+                        }
+                    }
+                },
+                template: `
+                        <div id="search-component">
+                            <h4>Hero Search</h4>
+                        
+                            <input id="search-box" v-model="search" @input="fetchHeros" />
+                        
+                            <ul class="search-result">
+                            <li v-for="hero in heroes" :key="hero.id" >
+                                <router-link :to="'/hero/'+hero.id">
+                                    {{hero.name}}
+                                </router-link>
+                            </li>
+                            </ul>
+                        </div>`
+            })
 
             const routes = [
                 { path: '/dashboard', component: Dashboard },
                 { path: '/heroes', component: Heroes },
-                { path: '/hero/:id', component: HeroDetail }
+                { path: '/hero/:id', component: HeroDetail, props: true }
             ]
 
             const router = new VueRouter({
@@ -355,10 +432,13 @@
 
 <body>
     <div id="app" class="p-8">
-        <h1 class="text-blue-500 text-3xl">{{ hello }}</h1>
-        <vue-dashboard></vue-dashboard>
+        <h1>{{hello}}</h1>
+        <nav>
+            <router-link to="/dashboard">Dashboard</router-link>
+            <router-link to="/heroes">Heroes</router-link>
+        </nav>
+        <router-view></router-view>
         <vue-message-service></vue-message-service>
-        <vue-heroes></vue-heroes>
     </div>
 </body>
 

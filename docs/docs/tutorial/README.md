@@ -20,7 +20,6 @@ What we will be learning
 * Filters to transform data
 * Basic api to fetch data
 * Two-way data binding
-* Formdata
 
 Final application
 TODO: add screenshoot
@@ -156,7 +155,7 @@ Now you can type in either of the input boxes and the name will update on all tr
 
 ## More heroes
 
-Vue have the super hero but Vue exist of alot of heroes! So lets add more heroes in [part5](https://heroes-of-vue.netlify.com/part5.html)!
+Vue have the super hero but Vue exist of a lot of heroes! So lets add more heroes in [part5](https://heroes-of-vue.netlify.com/part5.html)!
 
 First we add a list of heroes that we got from the [Vue team](https://vuejs.org/v2/guide/team.html).
 
@@ -203,8 +202,7 @@ How fun is it to have a list but we cant do anything with it? Lets add the abili
 
 Lets start by adding a click listener on our list using `@click` (Remember from earlier thats the same as `v-on:click`). To know where we are clicking we get use of the style we added in last part.
 
-So here we use a new value `selectedHero` that we set using our method `onSelect` 
-that will add/remove our selected class.
+So here we use a new value `selectedHero` that we set using our method `onSelect` that will add/remove our selected class.
 
 ```html
 <ul class="heroes">
@@ -602,7 +600,7 @@ Getting close to the final-app! Things we are missing is adding more heroes and 
 
 So now we can display and edit heroes. Lets add the ability to add more heroes.
 
-Lets add a input above our heros list.
+Lets add a input above our heros list to add more heroes.
 
 ```html
 <div>
@@ -616,11 +614,221 @@ Lets add a input above our heros list.
 </div>
 ```
 
-To make this work we make use of a v-model on our input to store the heroes name. Then we add a method `addHero` that will add the new hero to our list.
+To make this work we make use of a v-model on our input to store the hero name. Then we add a method `addHero` that will add the new hero to our list.
 
 Lets add one more thing while we are on our heroes list. Removing heroes from the list.
 
+## Removing heroes
+
 To be able to remove items from the list we add a button on our list items.
-`<button class="delete" title="delete hero" @click.prevent="deleteHero(hero)">x</button>` and we need to add the method `deleteHero`.
+`<button class="delete" title="delete hero" @click.prevent="deleteHero(hero)">x</button>` and we need to add the method `deleteHero` that will call our api to remove the selected hero.
 
+Starting to look good! In [part15](https://heroes-of-vue.netlify.com/part15.html) we will add the ability to search for heroes.
 
+## Hero search
+
+First thing to do is to update our api to handle search.
+
+```js
+search(pattern) {
+    Vue.prototype.$messageService.add('Searching heros with: ' + pattern)
+    return heroes.filter(existingHero => existingHero.name.includes(pattern))
+}
+```
+
+This is a very basic search functionality but it works :)
+
+Next we create a search component.
+
+Start with the base
+
+```js
+Vue.component('vue-hero-search', {
+    data() {
+        return {
+            search: '',
+            heroes: []
+        }
+    },
+    methods: {},
+    template: ``
+})
+```
+
+Next our template
+
+```html
+<div id="search-component">
+    <h4>Hero Search</h4>
+
+    <input id="search-box" v-model="search" @input="fetchHeros" />
+
+    <ul class="search-result">
+    <li v-for="hero in heroes" :key="hero.id" >
+        <router-link :to="'/hero/'+hero.id">
+        {{hero.name}}
+        </router-link>
+    </li>
+    </ul>
+</div>
+```
+
+And last we add the search method
+
+```js
+fetchHeros() {
+    if (!this.search) {
+        this.heroes = [];
+    } else {
+        this.heroes = this.$heroesApi.search(this.search)
+    }
+}
+```
+
+Then we can add our search component in our dashboard.
+
+```html
+<div style="display: flex; flex-direction: column;" >
+    <h3>Top Heroes</h3>
+    <div class="grid grid-pad">
+        <div v-for="(hero, index) in heroes" class="col-1-4" :key="index" >
+            <div class="module hero">
+              <h4>{{hero.name}}</h4>
+            </div>
+        </div>
+    </div>
+    <vue-hero-search></vue-hero-search>
+</div>
+```
+
+Try typing into the search box,, It will automatically update the list of matching heroes!
+
+Remember we create a `vue-hero-detail` component in the beginning? Currently we have setup up a route to it when calling `/hero/:id`. The `:id` here is the id of the hero. So calling `http://localhost:3000/hero/11` would return `Evan You`.
+
+But that wont work yet... That is something we will fix in [part16](https://heroes-of-vue.netlify.com/part16.html) of the tutorial!
+
+## Route links
+
+Currently we don't have any way to link between routes. Here we can make use of Vue routers `<router-link>` to move between routes.
+
+Remember what we did with the header? The important part of `router-link` is the `to` attribute. It says what route we want to route to when clicking the link.
+
+```html
+<nav>
+    <router-link to="/dashboard">Dashboard</router-link>
+    <router-link to="/heroes">Heroes</router-link>
+</nav>
+```
+
+So where would it be nice to have a router-link?
+
+* When selecting a hero in heroes list
+* Dashboard heroes
+* Search results
+
+So lets fix that!
+
+Starting with our `<vue-heroes-search>`
+
+```html
+<router-link v-for="(hero, index) in heroes" :key="index" :to="'/hero/'+hero.id" >
+    <li @click="onSelect(hero)" :class="{selected: hero.id === selectedHero.id}" >
+        <span class="badge">{{hero.id}}</span> {{hero.name}}
+        <button class="delete" title="delete hero" @click.prevent="deleteHero(hero)">x</button>
+    </li>
+</router-link>
+```
+
+Lets try if it works!
+
+```bash
+[Vue warn]: Error in render: "TypeError: Cannot read property 'name' of undefined"
+found in
+
+---> <VueHeroDetail>
+```
+
+Ops, what happened there? Did we enter something wrong? Lets check the component it references to in the error message. Our HeroDetail and how we use the prop name.
+
+Here we can see that we are sending in our hero as prop. Now you wonder, how do we send a prop when using a router-link? Good question!
+
+Here we have two ways to manage to get the hero when mounting our `vue-hero-detail`.
+
+### Using route params
+
+We could get the params from the url when our component mount. But then we need to move or hero prop to our data. Or we could make a local variable that gets its value from prop or from mounter.
+
+```js
+data() {
+  return {
+    hero: {}
+  }
+},
+mounted: function () {
+  this.hero = api.getHero(this.$route.params.id)
+},
+```
+
+That works! But now we have made our detail component stuck to be needed to get its hero id from route params! Best would be if we could still pass the hero id in as prop to make it more self contained. Lets see how we could do that in [part17](https://heroes-of-vue.netlify.com/part17.html)
+
+### Using route props
+
+The approach we can take is the one described in [Passing Props to Route Components](https://router.vuejs.org/guide/essentials/passing-props.html#passing-props-to-route-components)
+
+To make this work we refactor our props to take a id.
+
+```js
+props: {
+    id: {
+        type: String,
+        default: ''
+    }
+}
+```
+
+Then we can update our mount to use the passed id instead.
+
+```js
+mounted: function () {
+    this.hero = this.$heroesApi.getHero(this.id)
+}
+```
+
+Now refresh and it should still work! And now we have the ability to reuse the component as ordinary component `<vue-hero-detail id="11" ></vue-hero-detail>`
+
+Now we can fix the last two components `<vue-dashboard>` and `<vue-hero-search>`.
+
+```html
+<router-link v-for="(hero, index) in heroes" class="col-1-4" :key="index" :to="'hero/'+hero.id" >
+    <div class="module hero">
+    <h4>{{hero.name}}</h4>
+    </div>
+</router-link>
+```
+
+```html
+<router-link :to="'/hero/'+hero.id">
+    {{hero.name}}
+</router-link>
+```
+
+Now try and update a heroes name and you will see it updates in the dashboard, heroes list, search list and detail header!
+
+## Summary
+
+Lets check our goals we set at the beginning. Have we manage to cover all the pieces?
+
+* [x] Using Vue using just one html file
+* [x] Creating components
+* [x] Computed properties
+* [x] Set up routing using Vue-router
+* [x] Directives
+* [x] Filters to transform data
+* [x] Basic api to fetch data
+* [x] Two-way data binding
+
+I hope you feel like you have learned something and also that you can check all boxes :)
+
+Thats all for now. In the next tutorial we are going to rebuild this application using `vue-cli`! Where we will focus more on component separation and testing!
+
+I hope to see you there! until next time. Happy coding! "Build small, build a lot!"
