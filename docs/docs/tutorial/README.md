@@ -1,5 +1,5 @@
 ---
-description: wohoo
+description: Basics using Vue and building application
 ---
 
 # Tutorial
