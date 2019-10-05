@@ -4,7 +4,9 @@ description: Basics using Vue and building application
 
 # Tutorial
 
-Inspired by Angular [Tour of Heroes](https://angular.io/tutorial#tutorial-tour-of-heroes) i thought i would make my own twist on it and in the same time honor some of the people behind Vue! So here is the story of the heroes of Vue!
+Inspired by Angular [Tour of Heroes](https://angular.io/tutorial#tutorial-tour-of-heroes) I wanted to make my own twist on it and in the same time give a shout-out to some of the people behind Vue!
+
+So here is the story of the heroes of Vue!
 
 In this first part we will build the application using just one file! Crazy you would say. No node_modules black hole :O Just bare with me :)
 
