@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/lindgr3n/heroes-of-vue#readme",
   "devDependencies": {
+    "@vuepress/plugin-google-analytics": "^1.1.0",
     "commitizen": "^4.0.3",
     "cz-conventional-changelog": "^3.0.2",
     "vuepress": "^1.1.0"
