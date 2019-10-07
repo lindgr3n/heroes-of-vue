@@ -13,13 +13,23 @@ module.exports = {
             '/tutorial/',
             '/using-cli/',
             // '/about/'
-        ]
+        ],
+        lastUpdated: 'Last Updated'
     },
     plugins: [
         [
             '@vuepress/google-analytics',
             {
                 'ga': 'UA-132865046-2' // UA-00000000-0
+            }
+        ],
+        [
+            '@vuepress/last-updated',
+            {
+                transformer: (timestamp, lang) => {
+                    var formatDistanceToNow = require('date-fns/formatDistanceToNow')
+                    return formatDistanceToNow(timestamp)
+                }
             }
         ]
     ]
