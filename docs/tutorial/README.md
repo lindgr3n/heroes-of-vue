@@ -10,7 +10,7 @@ So here is the story of the heroes of Vue!
 
 In this first part we will build the application using just one file! Crazy you would say. No node_modules black hole :O Just bare with me :)
 
-Full application exist here [demo](https://heroes-of-vue.netlify.com). Checkout the repo [here](https://github.com/lindgr3n)
+Full application exist here [demo](/tutorial-parts). Checkout the repo [here](https://github.com/lindgr3n)
 
 What we will be learning
 
