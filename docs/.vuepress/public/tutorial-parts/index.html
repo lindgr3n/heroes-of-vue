@@ -4,9 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Heroes of Vue</title>
+    <title>Heroes of Vue - Tutorial parts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css"> -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
@@ -15,8 +14,9 @@
     </style>
     <script>
         window.onload = function () {
-            const TOTAL_PARTS = 5 + 1;
+            const TOTAL_PARTS = 17 + 1;
             const parts = []
+
             for (let i = 1; i < TOTAL_PARTS; i++) {
                 parts.push({
                     id: i, link: `./part${i}.html`, title: `Part${i}`
@@ -36,13 +36,28 @@
 <body>
     <div id="app" class="p-8">
         <h1>{{title}}</h1>
-        <nav class="flex list-reset">
-            <a v-for="part in parts" :key="part.id" :href="part.link" class="p-4 text-blue-dark">
+
+        <div class="full-app">
+            <a href="./full-app.html" class="p-4 text-blue-dark">
                 <div class="border border-grey-light bg-white rounded p-4 leading-normal">
-                    <div class="font-bold text-xl mb-2">{{part.title}}</div>
+                    <div class="font-bold text-xl mb-2">Full app</div>
                 </div>
             </a>
-        </nav>
+        </div>
+        <div class="parts">
+            <nav class="flex list-reset flex-wrap">
+                <a v-for="part in parts" :key="part.id" :href="part.link" class="p-4 text-blue-dark min-w-0">
+                    <div class="max-w-sm rounded overflow-hidden shadow-lg min-w-0">
+                        <div class="px-6 py-4">
+                            <div class="font-bold text-xl mb-2">{{part.title}}</div>
+                            <p class="text-gray-700 text-base">
+                                {{part.description}}
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </nav>
+        </div>
     </div>
 </body>
 

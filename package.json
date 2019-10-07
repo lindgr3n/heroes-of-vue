@@ -7,7 +7,10 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs",
+    "commit": "npx git-cz"
   },
   "repository": {
     "type": "git",
@@ -20,7 +23,9 @@
   },
   "homepage": "https://github.com/lindgr3n/heroes-of-vue#readme",
   "devDependencies": {
-    "cz-conventional-changelog": "^2.1.0"
+    "commitizen": "^4.0.3",
+    "cz-conventional-changelog": "^2.1.0",
+    "vuepress": "^1.0.0-alpha.44"
   },
   "config": {
     "commitizen": {
