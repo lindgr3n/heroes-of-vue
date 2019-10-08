@@ -10,5 +10,5 @@ features:
   details: Second part we will use Vue-cli to build the same application we did in part one but more structured.
 - title: What we will learn
   details: Introduction to Vue, Vue-cli, Vue-router, Fetch API and who are the heroes of Vue!
-footer: MIT Licensed | Copyright © 2019-present Johan Lindgren
+footer: MIT Licensed | Copyright © 2019-present Lindgr3n
 ---
