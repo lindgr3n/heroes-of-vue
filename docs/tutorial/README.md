@@ -13,7 +13,7 @@ So here is the story of the Heroes of Vue!
 In this first part we will build the application using just one file!
 Crazy you would say. No node_modules black hole :O Just bare with me :)
 
-Full application exist here [demo](/tutorial-parts/full-app.html).
+Full application exist here [demo](https://heroes-of-vue.netlify.com/tutorial-parts/full-app.html).
 Want dive into the code direct? Here is the repo [here](https://github.com/lindgr3n/heroes-of-vue)
 
 What we will be learning:
