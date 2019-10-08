@@ -6,15 +6,19 @@ description: Basics using Vue and building application
 
 Inspired by Angular [Tour of Heroes](https://angular.io/tutorial#tutorial-tour-of-heroes) I wanted to make my own twist on it and in the same time give a shout-out to some of the people behind Vue!
 
-So here is the story of the heroes of Vue!
+So here is the story of the Heroes of Vue!
 
-In this first part we will build the application using just one file! Crazy you would say. No node_modules black hole :O Just bare with me :)
+## The beginning
 
-Full application exist here [demo](/tutorial-parts). Checkout the repo [here](https://github.com/lindgr3n)
+In this first part we will build the application using just one file!
+Crazy you would say. No node_modules black hole :O Just bare with me :)
 
-What we will be learning
+Full application exist here [demo](/tutorial-parts/full-app.html).
+Want dive into the code direct? Here is the repo [here](https://github.com/lindgr3n/heroes-of-vue)
 
-* Using Vue using just one html file
+What we will be learning:
+
+* Using Vue with just one html file
 * Creating components
 * Computed properties
 * Set up routing using Vue-router
@@ -23,30 +27,42 @@ What we will be learning
 * Basic api to fetch data
 * Two-way data binding
 
-Final application
-TODO: add screenshoot
+## Final application
 
-We will have a dashboard
-TODO: Add screenshot
+Some screens on the final application.
 
-Detail view
-TODO: Add screenshot
+### We will have a dashboard
 
-List view of heroes
-TODO: Add screenshot
+![full-app](./full-app.png)
 
-## Setup
+### A Hero detail view
 
-Lets start with creating a single html file. Then we go npm you say? Nope, no need! as i said lets just use one file :)
+<img src="./hero-view.png" width="50%" height="auto">
+
+### List of heroes
+
+<img src="./heroes-list.png" width="50%" height="auto">
+
+## Chapter one - Setup
+
+Lets start with creating a single html file. Then we go `npm install` you say?
+Nope, no need! As I said lets just use one html file for the full application :)
+
+Lets create our start file.
 
 ```bash
 mkdir heroes-of-vue
 touch heroes-of-vue/index.html
 ```
 
-Next we create a standard html template and we include Vue using a CDN link. [getting started](https://vuejs.org/v2/guide/#Getting-Started)
+Next we create a standard html template and we include Vue using a CDN link.
+Starter file is based on [getting started](https://vuejs.org/v2/guide/#Getting-Started)
 
-The Vue guide is excellent to explain how things work. Looking at [part1](https://heroes-of-vue.netlify.com/part1.html) and launch it in a browser we will see "Hello heroes!"
+The Vue guide is excellent to explain how things work.
+
+Open your file in the browser. You should see "Hello heroes".
+
+First part in [part1](https://heroes-of-vue.netlify.com/part1.html)
 
 ## Creating our First component
 
