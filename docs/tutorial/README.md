@@ -382,13 +382,13 @@ Now that we have the ability to edit our hero and show some more heroes. Lets ma
 
 ### Set up basic style
 
-We will use the `<style>` tag in our html header to append styling to our application
+We will use the `<style>` tag in our html header to append styling to our application. See the result in [part5](https://heroes-of-vue.netlify.com/tutorial-parts/part5.html)
 
 Here i will borrow the same style as used in Angular's "Tour of heroes". Think they did a good job!
 
 In the next version where we will be using `Vue-cli` we will introduce [TailwindCSS](https://tailwindcss.com/) a css framework or rather a css utility library to make more of our own style.
 
-## Selection of our heroes
+### Selection of our heroes
 
 How fun is it to have a list but we cant do anything with it? Lets add the ability to select our heroes in [part6](https://heroes-of-vue.netlify.com/tutorial-parts/part6.html)!
 
@@ -408,9 +408,11 @@ So here we use a new value `selectedHero` that we set using our method `onSelect
 
 So what can we do now? Lets update our detail view with the selected component!
 
-## Show hero details
+### Show hero details
 
-Currently we have a hard coded hero in our details component. To make it dynamic we need to use [props](https://vuejs.org/v2/guide/components-props.html). Take a quick look in the documentation! But in short its how we can pass in our selected hero into our detail component to use.
+Currently we have a hard coded hero in our details component. To make it dynamic we need to use something called [props](https://vuejs.org/v2/guide/components-props.html). Take a quick look in the documentation!
+
+In short its how we can pass in our selected hero into our detail component to use.
 
 ```js
  props: {
@@ -444,15 +446,15 @@ So to make use of the selected component we move our detail component inside our
 
 You will also notice when we select a hero and edit its name we get updates in our list!
 
-## State management
+### Chapter seven - Vue plugins
 
-Currently we have a global list of heroes. This works but what if we want to get a updated list? Best way would be to have some kind of api to get our heroes.
+Angular talks about something called services. In Vue a good way to do something similar would be to use a [Vue plugin](https://vuejs.org/v2/guide/plugins.html).
 
-Angular talks about something called services. In Vue a good way would be to use a [Vue plugin](https://vuejs.org/v2/guide/plugins.html). So lets build something like that in [part7](https://heroes-of-vue.netlify.com/tutorial-parts/part7.html)!
+So lets build something like that in [part7](https://heroes-of-vue.netlify.com/tutorial-parts/part7.html)!
 
-## Message service
+### Message service
 
-Angular tutorial adds something called message service used to log what ishappening in the application. To make something similar in Vue we can make use of the Vue prototype. And include it in our Vue plugin that contains our api requests also :).
+The Angular tutorial adds something called message service used to log what is happening in the application. To make something similar in Vue we can make use of the Vue prototype. And include it in our Vue plugin that contains our api requests also :).
 
 Our message service is just list of messages and two methods to add and clear our messages.
 
@@ -476,7 +478,7 @@ const messageService = new Vue({
 
 Here we make a new instance of Vue to make use of Vues reactiveness. So when we call our methods our messages will trigger a re-render.
 
-## Vue plugin
+### Vue plugin
 
 To start creating our plugin we start by crating a empty object. The main thing our plugin needs is a install method. So we can install it using `Vue.use`
 
@@ -490,6 +492,10 @@ Vue.use(HeroesApi)
 ```
 
 This is our basic plugin. Running this will print 'Plugin installed!' in the console. In [part8](https://heroes-of-vue.netlify.com/tutorial-parts/part8.html) we will add our api and include our messageService.
+
+## Chapter eight - API
+
+Currently we have a global list of heroes. This works but what if we want to get a updated list? Best way would be to have some kind of api to get our heroes at startup.
 
 ### Heroes Api
 
@@ -577,11 +583,13 @@ HeroesApi.install = function (Vue, options) {
 
 If you notice from the full-app we did not use a plugin! Adding a plugin here was just to show how one could do it :)
 
+## Chapter nine - Binding it all together
+
+Now the plugin we did would not work outside this page because it uses the global heroes list. What if we refactored and included the heroes in our plugin? Then if we wanted we could use this plugin in any Vue application.
+
 ### Refactor the heroes list
 
-Now the plugin we did would not work outside this page because it uses the global heroes list. What if we refactored and included the heroes in our plugin?
-
-Take a moment and see if you can manage to do it. Ill just go and get some coffee in the meantime :)
+Take a moment and see if you can manage to do it. Ill just go and get some :coffee: in the meantime :)
 
 Done? Great! If you just continued reading and just wanted the answer, this is how i did it in [part10](https://heroes-of-vue.netlify.com/tutorial-parts/part10.html)
 
@@ -623,11 +631,13 @@ HeroesApi.install = function (Vue, options) {
 }
 ```
 
-If you run the application now it will totally break! That is because our components no longer have access to the heroes variable.
+If you run the application now it will totally break! :fire: That is because our components no longer have access to the heroes variable. :(
 
 To fix this we can use the power of our plugin :)
 
 Remember the name in our plugin for exposing our api? `Vue.prototype.$heroesApi = api;`
+
+### Refactor heroes component
 
 So the thing we can do is to refactor our `<vue-heroes>` component to use our api instead of using the global variable.
 
@@ -645,19 +655,25 @@ mounted: function () {
 
 Now when you reload the application it should work as before! Also we now have a working message service! in [part11](https://heroes-of-vue.netlify.com/tutorial-parts/part11.html) we will create a new component so you can see it in action.
 
-## Message service component
+## Chapter ten - Messages
 
-Give it a shot and try and implement your own `vue-message-service` component and include it in our app template. You will need to
+Now with our plugin and message service api we need a way to display its data.
+
+### Message service component
+
+Give it a shot and try and implement your own `vue-message-service` component and include it in our app template.
+
+You will need to:
 
 * Get the list from our plugin
 * Loop over the messages and show the content.
 * (bonus) add a button to clear the messages
 
-Brb getting some more coffee!
+Brb getting some more :coffee:!
 
 So did you manage? :)
 
-Here is my implementation
+Here is how i did my implementation
 
 ```js
 Vue.component('vue-message-service', {
@@ -675,15 +691,19 @@ Vue.component('vue-message-service', {
 })
 ```
 
-Currently you will only see one message because we are only trigging the fetch inside our `vue-heroes`component. If you would like to try you can open the developer tools in the browser and type `Vue.prototype.$heroesApi.getHeroes()` in the console. Notice the `vue-message-service` component should update its list.
+Currently you will only see one message because we are only trigging the fetch inside our `vue-heroes`component. If you would like to try you can open the developer tools in the browser and type `Vue.prototype.$heroesApi.getHeroes()` in the console.
 
-## Routing
+Notice the `vue-message-service` component should update its list.
+
+## Chapter eleven - Time to move
 
 Currently we have everything rendering in our app template. But what if we added a dashboard? We would start to get a lot of information in the same place.
 
 We would like the dashboard and list of heroes be rendered by themself and the when clicking a hero its detail view will open. Here we can use [vue-router](https://router.vuejs.org/) Lets set up our routes in [part12](https://heroes-of-vue.netlify.com/tutorial-parts/part12.html)
 
-First we need to include vue router in the `head`
+### Routing
+
+First we need to include vue router in the `head`.
 
 ```html
 <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
@@ -721,7 +741,7 @@ var app = new Vue({
 });
 ```
 
-## Dashboard component
+### Dashboard component
 
 Last thing we need to create is the Dashboard component where we show the top 5 heroes.
 
@@ -765,9 +785,11 @@ Well that did not look pretty. Let add some style for it.
 
 Now we have a router but it don't really do anything yet. This we will fix in [part13](https://heroes-of-vue.netlify.com/tutorial-parts/part13.html)
 
-## Router-view
+## Chapter twelve - Change our view
 
 To make use of the power vue-router gives we need to use a element called `<router-view>` This will render the component our routes point at. So calling `http://localhost:3000/dashboard` will make the `<router-view>` render our `Dashboard` component.
+
+### Router-view
 
 So lets update our app template by including our `<router-view>` And also add links to be able to switch between the dashboard and our heroes list.
 
@@ -786,11 +808,18 @@ So lets update our app template by including our `<router-view>` And also add li
 Running the application now we can move between our two components :)
 To make it look a bit better we add some more style for our links.
 
-Getting close to the final-app! Things we are missing is adding more heroes and searching heroes! Lets get going on that in [part14](https://heroes-of-vue.netlify.com/tutorial-parts/part14.html)
+Getting close to the final-app!
 
-## Managing heroes
+Things we are missing is:
 
-So now we can display and edit heroes. Lets add the ability to add more heroes.
+* Adding more heroes
+* Searching heroes
+
+Lets get going on that in [part14](https://heroes-of-vue.netlify.com/tutorial-parts/part14.html)
+
+## Chapter thirteen - Increase the community
+
+So now we can display and edit heroes. Lets add the ability to add more heroes!
 
 ### Creating heroes
 
@@ -814,10 +843,19 @@ Lets add one more thing while we are on our heroes list. Removing heroes from th
 
 ### Removing heroes
 
-To be able to remove items from the list we add a button on our list items.
-`<button class="delete" title="delete hero" @click.prevent="deleteHero(hero)">x</button>` and we need to add the method `deleteHero` that will call our api to remove the selected hero.
+Could happen that we make a type when we add a hero so we should be able to remove items from the list we add a button on our list items.
+
+```html
+<button class="delete" title="delete hero" @click.prevent="deleteHero(hero)">x</button>
+```
+
+and we need to add the method `deleteHero` that will call our api to remove the selected hero.
 
 Starting to look good! In [part15](https://heroes-of-vue.netlify.com/tutorial-parts/part15.html) we will add the ability to search for heroes.
+
+## Chapter fourteen - Finding the one
+
+Lets add the ability to search for specific heroes.
 
 ### Hero search
 
@@ -832,9 +870,7 @@ search(pattern) {
 
 This is a very basic search functionality but it works :)
 
-Next we create a search component.
-
-Start with the base
+Next we create a search component. Start with the base.
 
 ```js
 Vue.component('vue-hero-search', {
@@ -858,11 +894,11 @@ Next our template
     <input id="search-box" v-model="search" @input="fetchHeros" />
 
     <ul class="search-result">
-    <li v-for="hero in heroes" :key="hero.id" >
-        <router-link :to="'/hero/'+hero.id">
-        {{hero.name}}
-        </router-link>
-    </li>
+        <li v-for="hero in heroes" :key="hero.id" >
+            <router-link :to="'/hero/'+hero.id">
+            {{hero.name}}
+            </router-link>
+        </li>
     </ul>
 </div>
 ```
@@ -895,17 +931,19 @@ Then we can add our search component in our dashboard.
 </div>
 ```
 
-Try typing into the search box,, It will automatically update the list of matching heroes!
+Try typing into the search box, It will automatically update the list of matching heroes!
 
 Remember we create a `vue-hero-detail` component in the beginning? Currently we have setup up a route to it when calling `/hero/:id`. The `:id` here is the id of the hero. So calling `http://localhost:3000/hero/11` would return `Evan You`.
 
 But that wont work yet... That is something we will fix in [part16](https://heroes-of-vue.netlify.com/tutorial-parts/part16.html) of the tutorial!
 
-## Route links component
+## Chapter sixteen - A way back
 
-Currently we don't have any way to link between routes. Here we can make use of Vue routers `<router-link>` to move between routes.
+Currently we don't have any way to link between routes. Here we can make use of Vue routers `<router-link>` component to move between routes.
 
-Remember what we did with the header? The important part of `router-link` is the `to` attribute. It says what route we want to route to when clicking the link.
+### Route links component
+
+The important part of `router-link` is the `to` attribute. It says what route we want to go to when clicking the link.
 
 ```html
 <nav>
@@ -942,7 +980,9 @@ found in
 ---> <VueHeroDetail>
 ```
 
-Ops, what happened there? Did we enter something wrong? Lets check the component it references to in the error message. Our HeroDetail and how we use the prop name.
+Ops, what happened there? Did we enter something wrong? Lets check the component it references to in the error message. Our `HeroDetail` and how we use the prop name.
+
+> How do we send a prop when using a router-link?
 
 Here we can see that we are sending in our hero as prop. Now you wonder, how do we send a prop when using a router-link? Good question!
 
@@ -1008,7 +1048,7 @@ Now we can fix the last two components `<vue-dashboard>` and `<vue-hero-search>`
 
 Now try and update a heroes name and you will see it updates in the dashboard, heroes list, search list and detail header!
 
-## Summary
+## Chapter seventeen - The end
 
 Lets check our goals we set at the beginning. Have we manage to cover all the pieces?
 
@@ -1021,7 +1061,7 @@ Lets check our goals we set at the beginning. Have we manage to cover all the pi
 * [x] Basic api to fetch data
 * [x] Two-way data binding
 
-I hope you feel like you have learned something and also that you can check all boxes :)
+I hope you feel like you have learned something and also that you can check all the boxes :)
 
 Thats all for now. In the next tutorial we are going to rebuild this application using `vue-cli`! Where we will focus more on component separation and testing!
 
