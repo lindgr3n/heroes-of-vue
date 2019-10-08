@@ -59,16 +59,19 @@ Next we create a standard html template and we include Vue using a CDN link.
 Starter file is based on [getting started](https://vuejs.org/v2/guide/#Getting-Started)
 
 The Vue guide is excellent to explain how things work.
-
 Open your file in the browser. You should see "Hello heroes".
 
-First part in [part1](https://heroes-of-vue.netlify.com/part1.html)
+First part in [part1](https://heroes-of-vue.netlify.com/tutorial-parts/part1.html)
 
-## Creating our First component
+## Chapter two - components
 
-When talking about frontend today you will have a hard time not read about components. Components is the frontends lego bricks to build applications. So how do we create a component in Vue?
+When talking about frontend today you will have a hard time not read about components. Components is the frontends lego bricks to build applications.
+So how do we create a component in Vue?
 
-Take a quick look at [Component basics](https://vuejs.org/v2/guide/components.html) to get a basic understanding about it. Then follow along here!
+### Creating our First component
+
+Take a quick look at [Component basics](https://vuejs.org/v2/guide/components.html) to get a basic understanding about it.
+Then get back and follow along!
 
 Lets make a hero editor component to display information about our heroes!
 
@@ -90,17 +93,25 @@ const HeroDetail = Vue.component('vue-hero-detail', {
       });
 ```
 
-Here we register our component using `Vue.component` with the tag name `vue-hero-detail` so we later can use it in our application. Then we have
-[`Data`](https://vuejs.org/v2/guide/instance.html#Data-and-Methods) is where we declare properties used in the component. This properties become reactive. So if a properties changes it will trigger a re-render.
-[template](https://vuejs.org/v2/guide/syntax.html) is where we declare how the component should look.
+Here we register our component using `Vue.component` with the tag name `vue-hero-detail` so we later can use it in our application.
 
 Important to remember that global registration of components need to be done before the Vue instance is made.
 
-Look at [part2](https://heroes-of-vue.netlify.com/part2.html) to see it in action.
+### Data
+
+[`Data`](https://vuejs.org/v2/guide/instance.html#Data-and-Methods) is where we declare properties used in the component. This properties become reactive. So if a properties changes it will trigger a re-render.
+
+### Template
+
+[template](https://vuejs.org/v2/guide/syntax.html) is where we declare how the component should look.
+
+Look at [part2](https://heroes-of-vue.netlify.com/tutorial-parts/part2.html) to see it in action.
 
 ### Filters to transform data
 
-Would it not look better to show the hero name in uppercase? Could just do `hero.name.toUpperCase()` or do the same in the data object. But then we get some special logic in the template and no possibility to reuse the logic. Instead we can take use of Vues [Filter system](https://vuejs.org/v2/guide/filters.html).
+Would it not look better to show the hero name in uppercase? Could just do `hero.name.toUpperCase()` in the template or in the data object. But then we get some special logic and no possibility to reuse the logic. Also what if we don't want our name to be upperCase?
+
+Instead we can take use of Vues [Filter system](https://vuejs.org/v2/guide/filters.html).
 
 Here we can define a filter on our component.
 
@@ -118,7 +129,7 @@ Then we can update our template to use
 <h2>{{hero.name | uppercase}} Details</h2>
 ```
 
-Look at [part3](https://heroes-of-vue.netlify.com/part3.html) to see it in action.
+Look at [part3](https://heroes-of-vue.netlify.com/tutorial-parts/part3.html) to see it in action.
 
 Here we could chain if we like multiple filter together
 
@@ -135,15 +146,14 @@ Vue.filter('uppercase', function (value) {
 })
 ```
 
-## Two-way data binding
+## Chapter three - Bindings
 
 Just showing the data is a good start. But to show some data we also need a way to add and edit the data.
 First thing that comes in mind is to place a input box and add a event listener on change and save the value for each value entered. This would work just fine. But Vue have a ace up its sleeve. [Two-way data binding!](https://vuejs.org/v2/guide/forms.html)
 
-### Edit our hero
+### Two-way data binding
 
-What is two-way data binding? Its a way to "connect" a value with a input form. Here we use Vues v-model.
-So lets introduce it in [part4](https://heroes-of-vue.netlify.com/part4.html) to give the ability to update our heroes name!
+What is two-way data binding? It's a way to "connect" a value with e.g a input form. Here we make use of Vues v-model.
 
 Lets add a input and hook on v-model
 
@@ -153,7 +163,7 @@ Lets add a input and hook on v-model
 
 Now when we type in our textbox the `hero.name` will automatically update thanks to the v-model!
 
-To know what the "magic" is behind `v-model` we can do the following
+To know the "magic" behind `v-model` we can do the following
 
 ```html
 <input
@@ -171,32 +181,88 @@ This is the same thing as v-model does in the background. So just for exercise l
 
 Now you can type in either of the input boxes and the name will update on all tree places! Amazing!
 
-## Vue directives
+See it in action in [part4](https://heroes-of-vue.netlify.com/tutorial-parts/part4.html)
 
-Vue have the super hero but Vue exist of a lot of heroes! So lets add more heroes in [part5](https://heroes-of-vue.netlify.com/part5.html)!
+## Chapter four - Vue magic
+
+One thing that "scares" people that start checking out Vue is the strange element attributes that starts with `v-`. Did you notice it in our hero component? This is nothing to be afraid of and i will try and explain the :fire:power:fire: behind it!
+
+### Vue directives
+
+The thing you seen `v-` is called [directives](https://vuejs.org/v2/guide/syntax.html#Directives). And they have special meaning in Vue. If you are coming from Angular you know it as `ng-`.
+
+Take a quick look at the Vue [directives documentation](https://vuejs.org/v2/guide/syntax.html#Directives) and get back here. Ill wait :)
+
+So lets take it from the beginning. If we go back to the `Two-way data binding` we used something called `v-model` to bind our value to be reactive. In the extra exercise we used `v-bind` to reactively update the html value.
+
+We will get into this more so don't worry if it feels "strange". Personally this was a bit strange for me at first. Now that i have used it for a while it feels "natural".
+
+### Community of Heroes
+
+Vue have the super hero Evan but Vue exist of a community of heroes! So lets add more heroes in [part5](https://heroes-of-vue.netlify.com/tutorial-parts/part5.html)!
 
 First we add a list of heroes that we got from the [Vue team](https://vuejs.org/v2/guide/team.html).
+
+```js
+let heroes = [
+    { id: 11, name: 'Evan You' },
+    { id: 12, name: 'Kazupon' },
+    { id: 13, name: 'Guillaume Chau' },
+    { id: 14, name: 'Sodatea' },
+    { id: 15, name: 'Damian Dulisz' },
+    { id: 16, name: 'Katashin' },
+    { id: 17, name: 'Eduardo' },
+    { id: 18, name: 'Sarah Drasner' },
+    { id: 19, name: 'Jinjiang' },
+    { id: 20, name: 'Rahul Kadyan' },
+    { id: 21, name: 'Pine Wu' },
+    { id: 22, name: 'Darek G Wędrychowski' },
+    { id: 23, name: 'Michał Sajnóg' },
+    { id: 24, name: 'Chris Fritz' },
+    { id: 25, name: 'Phan An' },
+    { id: 26, name: 'ULIVZ' },
+    { id: 27, name: 'Linusborg' },
+    { id: 28, name: 'GU Yiling' },
+    { id: 29, name: 'Edd Yerburgh' },
+    { id: 30, name: 'Pine' }
+]
+```
 
 Then we can create a new component to show our great heroes!
 
 Lets crate a new component like before named `vue-heroes` that will use our list of heroes.
 
-Hold your horses! Now i see that strange `v-` thing on my elements again. `v-for`, `v-model` and `v-bind` What is it? Also i found a typo in `:key="index"`. Should not be a `:` there!
+```js
+const Heroes = Vue.component('vue-heroes', {
+    data: function () {
+        return {
+            heroes: heroes
+        }
+    },
 
-Ohh, sry. Think i forgot to explain a main point in Vue language.
+    template: `
+            <div>
+                <h2>My Heroes</h2>
+                <ul class="heroes">
+                <div v-for="(hero, index) in heroes" :key="index" >
+                    <li>
+                        <span class="badge">{{hero.id}}</span> {{hero.name}}
+                    </li>
+                </div>
+                </ul>
+            </div>`
+});
+```
 
-### Directives and shorthands
+> Hold your horses! Now i see that strange `v-` thing again on my element! `v-for`, `v-model` and `v-bind` What is it? Also i found a typo in `:key="index"`. There should not be a `:` there!
 
-The thing you seen `v-` is called [directives](https://vuejs.org/v2/guide/syntax.html#Directives). And they have special meaning in Vue. If you are coming from Angular you know it as `ng-`.
+Don't worry all is good. Thats how it looks! As pointed out in [TODO:directives](#directives) this is a main point in Vue language.
 
-Take a quick look at the Vue directive documentation and get back here. Ill wait :)
-So lets take it from the beginning. If we go back to the `Two-way data binding` we used something called `v-model` to bind our value to be reactive. In the extra exercise we used `v-bind` to reactively update the html value.
+#### v-for
 
-In this part we found your "typo" `:key` that is not a typo! Its a [shorthand](https://vuejs.org/v2/guide/syntax.html#Shorthands) to save some typing :)
+[v-for](https://vuejs.org/v2/guide/list.html#Mapping-an-Array-to-Elements-with-v-for) is used for looping over elements.
 
-`v-bind:key` is the same as `:key`. We also have `v-on:click` that works the same as `@click`!
-
-So by now i think you could figure out what `v-for` does? You are correct! It makes a loop.
+In our heroes component we use it as following:
 
 ```html
 <div v-for="(hero, index) in heroes" :key="index" >
@@ -208,15 +274,123 @@ So by now i think you could figure out what `v-for` does? You are correct! It ma
 
 Here we use our array of `heroes` and for each hero we will crate a div with the content. Because our array exist of objects we can access its properties on the defined variable `hero`.
 
-## Set up basic style
+Are you coming from react-land you would do something like this
 
-Now that we have the ability to edit our hero and show some more heroes. Lets make some styling to it. Here i will use the same style from "Tour of heroes". They did a good job!
+```js
+return (<ul>{
+heroes.map((hero, index) =>
+    <div key={index}>
+        <li>
+            <span class="badge">{hero.id}</span> {hero.name}
+        </li>
+    </div>)
+}</ul>)
+```
+
+#### v-model
+
+[v-model](https://vuejs.org/v2/guide/components.html#Using-v-model-on-Components) we have already covered in [TODO:Two-way-databinding](#two-way-databinding)
+
+#### v-bind
+
+[v-bind](https://vuejs.org/v2/guide/syntax.html#Arguments) is a way to reactively update the html attribute when the value change.
+
+In our heroes component you notice it in `:key="index"` here we set the key attribute according to the index value. Would we remove the binding we would render `key="index"`instead of `key="0"`
+
+Here you also have the "typo" ;) It's called a shorthand. Will get into that in the next chapter.
+
+## Chapter five - Less is more
+
+Typing all this `v-bind`, `v-on` can be tiring. So shorthands to the rescue!
+
+### Shorthands
+
+[shorthand](https://vuejs.org/v2/guide/syntax.html#Shorthands) to save some typing :)
+
+`v-bind:key` is the same as `:key` as explained above. We also have `v-on:click` that works the same as `@click`!
+
+From the Vue documentation
+
+```html
+<!-- full syntax -->
+<a v-bind:href="url"> ... </a>
+
+<!-- shorthand -->
+<a :href="url"> ... </a>
+
+<!-- shorthand with dynamic argument (2.6.0+) -->
+<a :[key]="url"> ... </a>
+v-on Shorthand
+```
+
+```html
+<!-- full syntax -->
+<a v-on:click="doSomething"> ... </a>
+
+<!-- shorthand -->
+<a @click="doSomething"> ... </a>
+
+<!-- shorthand with dynamic argument (2.6.0+) -->
+<a @[event]="doSomething"> ... </a>
+```
+
+### Modifiers
+
+Another great thing that we can use is something called [modifiers](https://vuejs.org/v2/guide/events.html#Event-Modifiers)
+
+Recognize this? (From the react [docs](https://reactjs.org/docs/handling-events.html))
+
+```js
+function ActionLink() {
+  function handleClick(e) {
+    e.preventDefault();
+    console.log('The link was clicked.');
+  }
+
+  return (
+    <a href="#" onClick={handleClick}>
+      Click me
+    </a>
+  );
+}
+```
+
+Would we do the same in Vue it would look like this
+
+```js
+Vue.createComponent('action-link', {
+    template: `
+        <a href="#" @click.prevent="handleClick">
+            Click me
+        </a>
+    `,
+    methods: {
+        handleClick(event) {
+            console.log('The link was clicked.');
+        },
+    },
+})
+```
+
+Notice we don't need to handle the `event.preventDefault()` inside our method when we use our `.prevent` modifier :+1:
+
+Checkout the [modifiers](https://vuejs.org/v2/guide/events.html#Event-Modifiers) documentation about more modifiers for both events and key modifiers.
+
+## Chapter six - Let the fun begin
+
+Now that we have the ability to edit our hero and show some more heroes. Lets make some styling to it. Before we start to interact with the application.
+
+### Set up basic style
+
+We will use the `<style>` tag in our html header to append styling to our application
+
+Here i will borrow the same style as used in Angular's "Tour of heroes". Think they did a good job!
 
 In the next version where we will be using `Vue-cli` we will introduce [TailwindCSS](https://tailwindcss.com/) a css framework or rather a css utility library to make more of our own style.
 
-How fun is it to have a list but we cant do anything with it? Lets add the ability to select our heroes in [part6](https://heroes-of-vue.netlify.com/part6.html)!
-
 ## Selection of our heroes
+
+How fun is it to have a list but we cant do anything with it? Lets add the ability to select our heroes in [part6](https://heroes-of-vue.netlify.com/tutorial-parts/part6.html)!
 
 Lets start by adding a click listener on our list using `@click` (Remember from earlier thats the same as `v-on:click`). To know where we are clicking we get use of the style we added in last part.
 
@@ -274,7 +448,7 @@ You will also notice when we select a hero and edit its name we get updates in o
 
 Currently we have a global list of heroes. This works but what if we want to get a updated list? Best way would be to have some kind of api to get our heroes.
 
-Angular talks about something called services. In Vue a good way would be to use a [Vue plugin](https://vuejs.org/v2/guide/plugins.html). So lets build something like that in [part7](https://heroes-of-vue.netlify.com/part7.html)!
+Angular talks about something called services. In Vue a good way would be to use a [Vue plugin](https://vuejs.org/v2/guide/plugins.html). So lets build something like that in [part7](https://heroes-of-vue.netlify.com/tutorial-parts/part7.html)!
 
 ## Message service
 
@@ -315,7 +489,7 @@ HeroesApi.install = function (Vue, options) {
 Vue.use(HeroesApi)
 ```
 
-This is our basic plugin. Running this will print 'Plugin installed!' in the console. In [part8](https://heroes-of-vue.netlify.com/part8.html) we will add our api and include our messageService.
+This is our basic plugin. Running this will print 'Plugin installed!' in the console. In [part8](https://heroes-of-vue.netlify.com/tutorial-parts/part8.html) we will add our api and include our messageService.
 
 ### Heroes Api
 
@@ -346,7 +520,7 @@ HeroesApi.install = function (Vue, options) {
 }
 ```
 
-Now we can test it by running `Vue.prototype.$heroesApi.getHeroes()` and we can see that it returns our heroes list. In [part9](https://heroes-of-vue.netlify.com/part9.html) we will include our message service!
+Now we can test it by running `Vue.prototype.$heroesApi.getHeroes()` and we can see that it returns our heroes list. In [part9](https://heroes-of-vue.netlify.com/tutorial-parts/part9.html) we will include our message service!
 
 ### Message service plugin
 
@@ -409,7 +583,7 @@ Now the plugin we did would not work outside this page because it uses the globa
 
 Take a moment and see if you can manage to do it. Ill just go and get some coffee in the meantime :)
 
-Done? Great! If you just continued reading and just wanted the answer, this is how i did it in [part10](https://heroes-of-vue.netlify.com/part10.html)
+Done? Great! If you just continued reading and just wanted the answer, this is how i did it in [part10](https://heroes-of-vue.netlify.com/tutorial-parts/part10.html)
 
 Fist just move the heroes list and hero object inside our plugin.
 
@@ -469,7 +643,7 @@ mounted: function () {
 },
 ```
 
-Now when you reload the application it should work as before! Also we now have a working message service! in [part11](https://heroes-of-vue.netlify.com/part11.html) we will create a new component so you can see it in action.
+Now when you reload the application it should work as before! Also we now have a working message service! in [part11](https://heroes-of-vue.netlify.com/tutorial-parts/part11.html) we will create a new component so you can see it in action.
 
 ## Message service component
 
@@ -507,7 +681,7 @@ Currently you will only see one message because we are only trigging the fetch i
 
 Currently we have everything rendering in our app template. But what if we added a dashboard? We would start to get a lot of information in the same place.
 
-We would like the dashboard and list of heroes be rendered by themself and the when clicking a hero its detail view will open. Here we can use [vue-router](https://router.vuejs.org/) Lets set up our routes in [part12](https://heroes-of-vue.netlify.com/part12.html)
+We would like the dashboard and list of heroes be rendered by themself and the when clicking a hero its detail view will open. Here we can use [vue-router](https://router.vuejs.org/) Lets set up our routes in [part12](https://heroes-of-vue.netlify.com/tutorial-parts/part12.html)
 
 First we need to include vue router in the `head`
 
@@ -589,7 +763,7 @@ To show it we add it to our main template.
 
 Well that did not look pretty. Let add some style for it.
 
-Now we have a router but it don't really do anything yet. This we will fix in [part13](https://heroes-of-vue.netlify.com/part13.html)
+Now we have a router but it don't really do anything yet. This we will fix in [part13](https://heroes-of-vue.netlify.com/tutorial-parts/part13.html)
 
 ## Router-view
 
@@ -612,7 +786,7 @@ So lets update our app template by including our `<router-view>` And also add li
 Running the application now we can move between our two components :)
 To make it look a bit better we add some more style for our links.
 
-Getting close to the final-app! Things we are missing is adding more heroes and searching heroes! Lets get going on that in [part14](https://heroes-of-vue.netlify.com/part14.html)
+Getting close to the final-app! Things we are missing is adding more heroes and searching heroes! Lets get going on that in [part14](https://heroes-of-vue.netlify.com/tutorial-parts/part14.html)
 
 ## Managing heroes
 
@@ -643,7 +817,7 @@ Lets add one more thing while we are on our heroes list. Removing heroes from th
 To be able to remove items from the list we add a button on our list items.
 `<button class="delete" title="delete hero" @click.prevent="deleteHero(hero)">x</button>` and we need to add the method `deleteHero` that will call our api to remove the selected hero.
 
-Starting to look good! In [part15](https://heroes-of-vue.netlify.com/part15.html) we will add the ability to search for heroes.
+Starting to look good! In [part15](https://heroes-of-vue.netlify.com/tutorial-parts/part15.html) we will add the ability to search for heroes.
 
 ### Hero search
 
@@ -725,7 +899,7 @@ Try typing into the search box,, It will automatically update the list of matchi
 
 Remember we create a `vue-hero-detail` component in the beginning? Currently we have setup up a route to it when calling `/hero/:id`. The `:id` here is the id of the hero. So calling `http://localhost:3000/hero/11` would return `Evan You`.
 
-But that wont work yet... That is something we will fix in [part16](https://heroes-of-vue.netlify.com/part16.html) of the tutorial!
+But that wont work yet... That is something we will fix in [part16](https://heroes-of-vue.netlify.com/tutorial-parts/part16.html) of the tutorial!
 
 ## Route links component
 
@@ -789,7 +963,7 @@ mounted: function () {
 },
 ```
 
-That works! But now we have made our detail component stuck to be needed to get its hero id from route params! Best would be if we could still pass the hero id in as prop to make it more self contained. Lets see how we could do that in [part17](https://heroes-of-vue.netlify.com/part17.html)
+That works! But now we have made our detail component stuck to be needed to get its hero id from route params! Best would be if we could still pass the hero id in as prop to make it more self contained. Lets see how we could do that in [part17](https://heroes-of-vue.netlify.com/tutorial-parts/part17.html)
 
 ### Using route props
 
