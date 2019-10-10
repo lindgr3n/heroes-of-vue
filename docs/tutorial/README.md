@@ -14,7 +14,7 @@ In this first part we will build the application using just one file!
 Crazy you would say. No node_modules black hole :O Just bare with me :)
 
 Full application exist here [demo](https://heroes-of-vue.netlify.com/tutorial-parts/full-app.html).
-Want dive into the code direct? Here is the repo [here](https://github.com/lindgr3n/heroes-of-vue)
+Want dive into the code direct? The repo can be found [here](https://github.com/lindgr3n/heroes-of-vue)
 
 What we will be learning:
 
@@ -48,7 +48,7 @@ Some screens on the final application.
 Lets start with creating a single html file. Then we go `npm install` you say?
 Nope, no need! As I said lets just use one html file for the full application :)
 
-Lets create our start file.
+Lets create our application file.
 
 ```bash
 mkdir heroes-of-vue
@@ -103,7 +103,7 @@ Important to remember that global registration of components need to be done bef
 
 ### Template
 
-[template](https://vuejs.org/v2/guide/syntax.html) is where we declare how the component should look.
+[Template](https://vuejs.org/v2/guide/syntax.html) is where we declare how the component should look.
 
 Look at [part2](https://heroes-of-vue.netlify.com/tutorial-parts/part2.html) to see it in action.
 
@@ -149,6 +149,7 @@ Vue.filter('uppercase', function (value) {
 ## Chapter three - Bindings
 
 Just showing the data is a good start. But to show some data we also need a way to add and edit the data.
+
 First thing that comes in mind is to place a input box and add a event listener on change and save the value for each value entered. This would work just fine. But Vue have a ace up its sleeve. [Two-way data binding!](https://vuejs.org/v2/guide/forms.html)
 
 ### Two-way data binding
@@ -185,7 +186,11 @@ See it in action in [part4](https://heroes-of-vue.netlify.com/tutorial-parts/par
 
 ## Chapter four - Vue magic
 
-One thing that "scares" people that start checking out Vue is the strange element attributes that starts with `v-`. Did you notice it in our hero component? This is nothing to be afraid of and i will try and explain the :fire:power:fire: behind it!
+One thing that "scares" people that start checking out Vue is the strange element attributes that starts with `v-`.
+
+> Did you notice it in our hero component?
+
+This is nothing to be afraid of and i will try and explain the :fire:power:fire: behind it!
 
 ### Vue directives
 
@@ -256,7 +261,7 @@ const Heroes = Vue.component('vue-heroes', {
 
 > Hold your horses! Now i see that strange `v-` thing again on my element! `v-for`, `v-model` and `v-bind` What is it? Also i found a typo in `:key="index"`. There should not be a `:` there!
 
-Don't worry all is good. Thats how it looks! As pointed out in [TODO:directives](#directives) this is a main point in Vue language.
+Don't worry all is good. Thats how it looks! As pointed out in [directives](#vue-directives) this is a main point in Vue language.
 
 #### v-for
 
@@ -289,7 +294,7 @@ heroes.map((hero, index) =>
 
 #### v-model
 
-[v-model](https://vuejs.org/v2/guide/components.html#Using-v-model-on-Components) we have already covered in [TODO:Two-way-databinding](#two-way-databinding)
+[v-model](https://vuejs.org/v2/guide/components.html#Using-v-model-on-Components) we have already covered in [Two-way-databinding](#two-way-data-binding)
 
 #### v-bind
 
