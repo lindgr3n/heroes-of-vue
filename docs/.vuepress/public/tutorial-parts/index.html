@@ -10,7 +10,10 @@
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
     <style>
-
+        .parts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
     </style>
     <script>
         window.onload = function () {
@@ -39,24 +42,22 @@
 
         <div class="full-app">
             <a href="./full-app.html" class="p-4 text-blue-dark">
-                <div class="border border-grey-light bg-white rounded p-4 leading-normal">
+                <div class="border border-grey-light bg-white rounded p-4 leading-normal hover:bg-gray-200">
                     <div class="font-bold text-xl mb-2">Full app</div>
                 </div>
             </a>
         </div>
         <div class="parts">
-            <nav class="flex list-reset flex-wrap">
-                <a v-for="part in parts" :key="part.id" :href="part.link" class="p-4 text-blue-dark min-w-0">
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg min-w-0">
-                        <div class="px-6 py-4">
-                            <div class="font-bold text-xl mb-2">{{part.title}}</div>
-                            <p class="text-gray-700 text-base">
-                                {{part.description}}
-                            </p>
-                        </div>
+            <a v-for="part in parts" :key="part.id" :href="part.link" class="p-4 text-blue-dark min-w-0">
+                <div class="max-w-sm rounded overflow-hidden shadow-lg min-w-0 hover:bg-gray-200">
+                    <div class="px-6 py-4">
+                        <div class="font-bold text-xl mb-2">{{part.title}}</div>
+                        <p class="text-gray-700 text-base">
+                            {{part.description}}
+                        </p>
                     </div>
-                </a>
-            </nav>
+                </div>
+            </a>
         </div>
     </div>
 </body>
