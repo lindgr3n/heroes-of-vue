@@ -14,7 +14,7 @@ In this first part we will build the application using just one file!
 Crazy you would say. No node_modules black hole :O Just bare with me :)
 
 Full application exist here [demo](https://heroes-of-vue.netlify.com/tutorial-parts/full-app.html).
-Want dive into the code direct? Here is the repo [here](https://github.com/lindgr3n/heroes-of-vue)
+Want dive into the code? [Here's the repo](https://github.com/lindgr3n/heroes-of-vue)
 
 What we will be learning:
 
@@ -45,10 +45,10 @@ Some screens on the final application.
 
 ## Chapter one - Setup
 
-Lets start with creating a single html file. Then we go `npm install` you say?
-Nope, no need! As I said lets just use one html file for the full application :)
+Lets start with creating a single html file. Then we do `npm install` you say?
+Nope, no need! As I said, we'll use one html file for the full application :)
 
-Lets create our start file.
+Now lets create our start file.
 
 ```bash
 mkdir heroes-of-vue
@@ -58,17 +58,18 @@ touch heroes-of-vue/index.html
 Next we create a standard html template and we include Vue using a CDN link.
 Starter file is based on [getting started](https://vuejs.org/v2/guide/#Getting-Started)
 
-The Vue guide is excellent to explain how things work.
-Open your file in the browser. You should see "Hello heroes".
+The Vue guide does an excellent job in explaining how things work.
+Open your HTML file your browser of choice. You should see "Hello heroes".
 
 First part in [part1](https://heroes-of-vue.netlify.com/tutorial-parts/part1.html)
 
 ## Chapter two - components
 
-When talking about frontend today you will have a hard time not read about components. Components is the frontends lego bricks to build applications.
+When talking about frontend today you'll have a hard time not reading about components. Components is the frontend lego bricks used to build applications.
+
 So how do we create a component in Vue?
 
-### Creating our First component
+### Creating our first component
 
 Take a quick look at [Component basics](https://vuejs.org/v2/guide/components.html) to get a basic understanding about it.
 Then get back and follow along!
@@ -77,29 +78,29 @@ Lets make a hero editor component to display information about our heroes!
 
 ```js
 const HeroDetail = Vue.component('vue-hero-detail', {
-        data() {
-          return {
-            hero: {
-                id: 1,
-                name: 'Evan You'
-            }
-          }
-        },
-        template: `
-                  <div>
-                    <h2>{{hero.name}} Details</h2>
-                    <div><span>id: </span>{{hero.id}}</div>
-                  </div>`
-      });
+  data() {
+    return {
+      hero: {
+        id: 1,
+        name: 'Evan You'
+      }
+    }
+  },
+  template: `
+          <div>
+            <h2>{{hero.name}} Details</h2>
+            <div><span>id: </span>{{hero.id}}</div>
+          </div>`
+});
 ```
 
 Here we register our component using `Vue.component` with the tag name `vue-hero-detail` so we later can use it in our application.
 
-Important to remember that global registration of components need to be done before the Vue instance is made.
+Important to remember that **global registration of components need to be done before the Vue instance is made**.
 
 ### Data
 
-[`Data`](https://vuejs.org/v2/guide/instance.html#Data-and-Methods) is where we declare properties used in the component. This properties become reactive. So if a properties changes it will trigger a re-render.
+[`Data`](https://vuejs.org/v2/guide/instance.html#Data-and-Methods) is where we declare properties used in the component. These properties become reactive. So if a properties changes it will trigger a re-render.
 
 ### Template
 
@@ -111,7 +112,7 @@ Look at [part2](https://heroes-of-vue.netlify.com/tutorial-parts/part2.html) to 
 
 Would it not look better to show the hero name in uppercase? Could just do `hero.name.toUpperCase()` in the template or in the data object. But then we get some special logic and no possibility to reuse the logic. Also what if we don't want our name to be upperCase?
 
-Instead we can take use of Vues [Filter system](https://vuejs.org/v2/guide/filters.html).
+Instead we can make use of Vue's [Filter system](https://vuejs.org/v2/guide/filters.html).
 
 Here we can define a filter on our component.
 
@@ -131,13 +132,13 @@ Then we can update our template to use
 
 Look at [part3](https://heroes-of-vue.netlify.com/tutorial-parts/part3.html) to see it in action.
 
-Here we could chain if we like multiple filter together
+Here we could chain it if we want to use multiple filters together using the `|` (pipe) operator.
 
 ```js
 message | filterA | filterB
 ```
 
-We also have the ability to register a global filter so we don't need to set it up on the component.
+We also have the ability to register a global filter so we don't need to set it up on the component level.
 
 ```js
 Vue.filter('uppercase', function (value) {
@@ -149,19 +150,19 @@ Vue.filter('uppercase', function (value) {
 ## Chapter three - Bindings
 
 Just showing the data is a good start. But to show some data we also need a way to add and edit the data.
-First thing that comes in mind is to place a input box and add a event listener on change and save the value for each value entered. This would work just fine. But Vue have a ace up its sleeve. [Two-way data binding!](https://vuejs.org/v2/guide/forms.html)
+First thing that comes to mind is to add an input box and an event listener on change and save the value for each value entered. This would work just fine. But Vue have an ace up its sleeve. [Two-way data binding!](https://vuejs.org/v2/guide/forms.html)
 
 ### Two-way data binding
 
-What is two-way data binding? It's a way to "connect" a value with e.g a input form. Here we make use of Vues v-model.
+What is two-way data binding? It's a way to "connect" a data value with for example an input field. Here we make use of Vue's `v-model`.
 
-Lets add a input and hook on v-model
+Lets add an input element and attach `v-model`
 
 ```html
 <input v-model="hero.name" placeholder="name"/>
 ```
 
-Now when we type in our textbox the `hero.name` will automatically update thanks to the v-model!
+Now when we type in our textbox the `hero.name` will automatically update thanks to the `v-model`!
 
 To know the "magic" behind `v-model` we can do the following
 
@@ -185,26 +186,26 @@ See it in action in [part4](https://heroes-of-vue.netlify.com/tutorial-parts/par
 
 ## Chapter four - Vue magic
 
-One thing that "scares" people that start checking out Vue is the strange element attributes that starts with `v-`. Did you notice it in our hero component? This is nothing to be afraid of and i will try and explain the :fire:power:fire: behind it!
+One thing that "scares" people that start checking out Vue is the strange element attributes that starts with `v-`. Did you notice it in our hero component? This is nothing to be afraid of and I will try and explain the :fire:power:fire: behind it!
 
 ### Vue directives
 
-The thing you seen `v-` is called [directives](https://vuejs.org/v2/guide/syntax.html#Directives). And they have special meaning in Vue. If you are coming from Angular you know it as `ng-`.
+This syntax quirk `v-` is called [directives](https://vuejs.org/v2/guide/syntax.html#Directives). And they have special meaning in Vue. If you are coming from Angular you know it as `ng-`.
 
-Take a quick look at the Vue [directives documentation](https://vuejs.org/v2/guide/syntax.html#Directives) and get back here. Ill wait :)
+Take a quick look at the Vue [directives documentation](https://vuejs.org/v2/guide/syntax.html#Directives) and get back here. I'll wait :)
 
-So lets take it from the beginning. If we go back to the `Two-way data binding` we used something called `v-model` to bind our value to be reactive. In the extra exercise we used `v-bind` to reactively update the html value.
+So lets take it from the beginning. If we go back to the `Two-way data binding` we used something called `v-model` to bind our value to be reactive. In the extra exercise we used `v-bind` to reactively update the input value.
 
-We will get into this more so don't worry if it feels "strange". Personally this was a bit strange for me at first. Now that i have used it for a while it feels "natural".
+We will get into this more so don't worry if it feels "strange". For me personally this was a bit strange at first. Now that I've have used it for a while it feels "natural".
 
 ### Community of Heroes
 
-Vue have the super hero Evan but Vue exist of a community of heroes! So lets add more heroes in [part5](https://heroes-of-vue.netlify.com/tutorial-parts/part5.html)!
+Vue has the superhero Evan but in reality Vue is a community of heroes! So lets add some more heroes in [part5](https://heroes-of-vue.netlify.com/tutorial-parts/part5.html)!
 
 First we add a list of heroes that we got from the [Vue team](https://vuejs.org/v2/guide/team.html).
 
 ```js
-let heroes = [
+const heroes = [
     { id: 11, name: 'Evan You' },
     { id: 12, name: 'Kazupon' },
     { id: 13, name: 'Guillaume Chau' },
@@ -234,35 +235,34 @@ Lets crate a new component like before named `vue-heroes` that will use our list
 
 ```js
 const Heroes = Vue.component('vue-heroes', {
-    data: function () {
-        return {
-            heroes: heroes
-        }
-    },
-
-    template: `
-            <div>
-                <h2>My Heroes</h2>
-                <ul class="heroes">
-                <div v-for="(hero, index) in heroes" :key="index" >
-                    <li>
-                        <span class="badge">{{hero.id}}</span> {{hero.name}}
-                    </li>
-                </div>
-                </ul>
-            </div>`
+  data: function () {
+    return {
+      heroes: heroes
+    }
+  },
+  template: `
+    <div>
+        <h2>My Heroes</h2>
+        <ul class="heroes">
+        <div v-for="(hero, index) in heroes" :key="index" >
+            <li>
+                <span class="badge">{{hero.id}}</span> {{hero.name}}
+            </li>
+        </div>
+        </ul>
+    </div>`
 });
 ```
 
-> Hold your horses! Now i see that strange `v-` thing again on my element! `v-for`, `v-model` and `v-bind` What is it? Also i found a typo in `:key="index"`. There should not be a `:` there!
+> Hold your horses! Now I see that strange `v-` thing again on my element! `v-for`, `v-model` and `v-bind` What is it? Also I found a typo in `:key="index"`. There should not be a `:` there!
 
-Don't worry all is good. Thats how it looks! As pointed out in [TODO:directives](#directives) this is a main point in Vue language.
+Don't worry all is good. That's how it looks! As pointed out in [TODO:directives](#directives) this is one of the core features of Vue.
 
 #### v-for
 
 [v-for](https://vuejs.org/v2/guide/list.html#Mapping-an-Array-to-Elements-with-v-for) is used for looping over elements.
 
-In our heroes component we use it as following:
+In our heroes component we use it as:
 
 ```html
 <div v-for="(hero, index) in heroes" :key="index" >
@@ -272,19 +272,23 @@ In our heroes component we use it as following:
 </div>
 ```
 
-Here we use our array of `heroes` and for each hero we will crate a div with the content. Because our array exist of objects we can access its properties on the defined variable `hero`.
+Here we use our array of `heroes` and for each hero we will crate a `div` with the content. Because our array consists of objects we can access its properties on the defined variable `hero`.
 
 Are you coming from react-land you would do something like this
 
 ```js
-return (<ul>{
-heroes.map((hero, index) =>
-    <div key={index}>
-        <li>
+return (
+  <ul>
+    {
+      heroes.map((hero, index) =>
+        <div key={index}>
+          <li>
             <span class="badge">{hero.id}</span> {hero.name}
-        </li>
-    </div>)
-}</ul>)
+          </li>
+        </div>
+      )}
+  </ul>
+)
 ```
 
 #### v-model
@@ -297,7 +301,7 @@ heroes.map((hero, index) =>
 
 In our heroes component you notice it in `:key="index"` here we set the key attribute according to the index value. Would we remove the binding we would render `key="index"`instead of `key="0"`
 
-Here you also have the "typo" ;) It's called a shorthand. Will get into that in the next chapter.
+Here you also have the "typo" ;) It's called a shorthand. We'll get into that in the next chapter.
 
 ## Chapter five - Less is more
 
