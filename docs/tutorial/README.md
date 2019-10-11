@@ -73,7 +73,7 @@ Starter file is based on [getting started](https://vuejs.org/v2/guide/#Getting-S
 The Vue guide does an excellent job in explaining how things work.
 Open your HTML file your browser of choice. You should see "Hello heroes".
 
-First part in [part1](https://heroes-of-vue.netlify.com/tutorial-parts/part1.html)
+See the result for [part1](https://heroes-of-vue.netlify.com/tutorial-parts/part1.html)
 
 ## Chapter two - components
 
@@ -112,21 +112,25 @@ Important to remember that **global registration of components need to be done b
 
 ### Data
 
-[`Data`](https://vuejs.org/v2/guide/instance.html#Data-and-Methods) is where we declare properties used in the component. These properties become reactive. So if a properties changes it will trigger a re-render.
+The `data` block is where we declare properties used in the component. Find more information in the [documentation for data](https://vuejs.org/v2/guide/instance.html#Data-and-Methods).
+
+In short these properties will become reactive. If a reactive property change it will trigger a re-render.
 
 ### Template
 
-[Template](https://vuejs.org/v2/guide/syntax.html) is where we declare how the component should look.
+The `template` is where we declare how the component should look. Check out [documentation for template](https://vuejs.org/v2/guide/syntax.html) to find more information.
 
 Look at [part2](https://heroes-of-vue.netlify.com/tutorial-parts/part2.html) to see it in action.
 
 ### Filters to transform data
 
-Would it not look better to show the hero name in uppercase? Could just do `hero.name.toUpperCase()` in the template or in the data object. But then we get some special logic and no possibility to reuse the logic. Also what if we don't want our name to be upperCase?
+How would it look to have the hero name in uppercase? Could do `hero.name.toUpperCase()` in the template or in the `hero.name` property.
+
+But then we get some special logic and no possibility to reuse it. Also what if we don't want our name to be upperCase in some other part of the component?
 
 Instead we can make use of Vue's [Filter system](https://vuejs.org/v2/guide/filters.html).
 
-Here we can define a filter on our component.
+Here we define an filter on our component.
 
 ```js
 filters: {
@@ -161,12 +165,13 @@ Vue.filter('uppercase', function (value) {
 
 ## Chapter three - Bindings
 
-Just showing the data is a good start. But to show some data we also need a way to add and edit the data.
+Just showing the data is a good start. But to show some data we also need a way to add more and edit the current data.
+
 First thing that comes to mind is to add an input box and an event listener on change and save the value for each value entered. This would work just fine. But Vue have an ace up its sleeve. [Two-way data binding!](https://vuejs.org/v2/guide/forms.html)
 
 ### Two-way data binding
 
-What is two-way data binding? It's a way to "connect" a data value with for example an input field. Here we make use of Vue's `v-model`.
+What is two-way data binding? It's a way to "connect" a data value with for example an input field. To do that we make use of Vue's `v-model`.
 
 Lets add an input element and attach `v-model`
 
@@ -185,7 +190,7 @@ To know the "magic" behind `v-model` we can do the following
 >
 ```
 
-This is the same thing as v-model does in the background. So just for exercise lets add a second input without v-model
+This is the same thing as v-model does in the background. So just for exercise lets add a second input without v-model.
 
 ```html
 <input v-model="hero.name" placeholder="name"/>
