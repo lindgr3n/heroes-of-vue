@@ -67,6 +67,15 @@ mkdir heroes-of-vue
 touch heroes-of-vue/index.html
 ```
 
+Or for windows
+
+```bash
+mkdir heroes-of-vue
+echo . > index.html
+```
+
+Or just right click create new file :)
+
 Next we create a standard html template and we include Vue using a CDN link.
 Starter file is based on [getting started](https://vuejs.org/v2/guide/#Getting-Started)
 
