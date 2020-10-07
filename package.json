@@ -22,10 +22,10 @@
   },
   "homepage": "https://github.com/lindgr3n/heroes-of-vue#readme",
   "devDependencies": {
-    "@vuepress/plugin-google-analytics": "^1.1.0",
-    "commitizen": "^4.0.3",
-    "cz-conventional-changelog": "^3.0.2",
-    "vuepress": "^1.1.0"
+    "@vuepress/plugin-google-analytics": "^1.6.0",
+    "commitizen": "^4.2.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "vuepress": "^1.6.0"
   },
   "config": {
     "commitizen": {
@@ -33,6 +33,6 @@
     }
   },
   "dependencies": {
-    "date-fns": "^2.4.1"
+    "date-fns": "^2.16.1"
   }
 }
