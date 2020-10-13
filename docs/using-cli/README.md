@@ -48,3 +48,50 @@ Then inside our App is where we import the different building blocks we want to 
 ```
 
 So lets go back.
+
+## Chapter 4 - Components round two
+
+If you remember we created our `HeroDetail` component. That component is created inside the `components` folder. The we can import it where we want to use it by `import HeroDetail from "@/components/HeroDetail.vue"`
+The `@` is a alias for the src folder and is build into the vue webpack configuration.
+
+If you want to know what the default configuration is you can use the `vue inspect > output.js` command to get a file with all the configuration.
+
+After you have imported the component you will need to register the component using the `components` attribute. This is so the template will know what the custom element names is connected to.
+
+```js
+components: {
+    HeroDetail
+}
+```
+
+Is a shorthand for 
+
+```
+components: {
+    'hero-detail': HeroDetail
+}
+```
+
+So our `App.vue` will look like
+
+```vue
+<template>
+  <div id="app">
+    <!-- <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
+    </div>
+    <router-view /> -->
+    <hero-detail />
+  </div>
+</template>
+
+<script>
+import HeroDetail from "@/components/HeroDetail";
+export default {
+  components: {
+    HeroDetail
+  }
+};
+</script>
+```
